@@ -8,6 +8,26 @@ import requests
 import json
 import pprint
 
+#begin constants used in code
+api_mainnet = "https://api.smartbit.com.au/v1/"
+api_testnet = "https://testnet-api.smartbit.com.au/v1/"
+push_suburl = "blockchain/pushtx/"
+decode_suburl = "blockchain/decodetx/"
+#end constants used in code
+
+#begin functions for pushing transactions to the blockchain
+def push_transaction(hex_hash, use_testnet):
+        global api_mainnet
+        global api_testnet
+        global push_suburl
+        payload = {"hex":hex_hash}
+        if not use_testnet:
+                upload_results = requests.post(api_mainnet + push_suburl,str(payload).replace("'","\""))
+        else:
+                upload_results = requests.post(api_testnet + push_suburl,str(payload).replace("'","\""))
+        return upload_results.json()
+
+
 def grab_utxos(address,on_testnet): # Bitcoin address
 	block_info_url = "https://blockchain.info/unspent?active="
 	testnet_url = "https://testnet.blockchain.info/unspent?active="

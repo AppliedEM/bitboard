@@ -130,6 +130,15 @@ def build_transaction3(pubkey, value, fee):
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
+'''
+performs a transaction given the public key to send funds to (pubkey) at (value)
+with a certain transaction fee. pubkey is a compressed SEC string, and value and
+fee are in satoshi
+'''
+def perform_transaction(pubkey, value, fee):
+    trans = build_transaction3(pubkey, value, fee).decode('UTF-8')
+    return transactions.push_transaction(trans, True)
+
 def wiftoprivate(wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
     return int(bs,16)
@@ -190,6 +199,9 @@ def debug3():
 #debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
-changewallet(privatekey2)
-print(build_transaction3(taddr3, .1*sats, .005*sats))
+#changewallet(privatekey)
+#trans = build_transaction3(taddr3, .1*sats, .005*sats).decode('UTF-8')
+#trans = build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr).decode('UTF-8')
+#print(trans)
+#print(transactions.push_transaction(trans, True))
 #debug3()

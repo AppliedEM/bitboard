@@ -1,0 +1,233 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'create-react-app' ]
+2 info using npm@1.3.10
+3 info using node@v0.10.25
+4 verbose cache add [ 'create-react-app', null ]
+5 verbose cache add name=undefined spec="create-react-app" args=["create-react-app",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'create-react-app',
+6 verbose parsed url   path: 'create-react-app',
+6 verbose parsed url   href: 'create-react-app' }
+7 silly lockFile 12ca563e-create-react-app create-react-app
+8 verbose lock create-react-app /home/theconspiracy/.npm/12ca563e-create-react-app.lock
+9 silly lockFile 12ca563e-create-react-app create-react-app
+10 silly lockFile 12ca563e-create-react-app create-react-app
+11 verbose addNamed [ 'create-react-app', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile e90bd262-create-react-app create-react-app@
+14 verbose lock create-react-app@ /home/theconspiracy/.npm/e90bd262-create-react-app.lock
+15 silly addNameRange { name: 'create-react-app', range: '*', hasData: false }
+16 verbose url raw create-react-app
+17 verbose url resolving [ 'https://registry.npmjs.org/', './create-react-app' ]
+18 verbose url resolved https://registry.npmjs.org/create-react-app
+19 info trying registry request attempt 1 at 18:49:07
+20 http GET https://registry.npmjs.org/create-react-app
+21 http 200 https://registry.npmjs.org/create-react-app
+22 silly registry.get cb [ 200,
+22 silly registry.get   { 'content-type': 'application/json; charset=UTF-8',
+22 silly registry.get     server: 'UploadServer',
+22 silly registry.get     'cache-control': 'max-age=300',
+22 silly registry.get     'last-modified': 'Sat, 3 Mar 2018 19:36:55 GMT',
+22 silly registry.get     etag: '"5a9af957-11080"',
+22 silly registry.get     'x-npm-region': 'US-East',
+22 silly registry.get     'content-length': '69760',
+22 silly registry.get     'accept-ranges': 'bytes',
+22 silly registry.get     date: 'Sat, 03 Mar 2018 23:49:11 GMT',
+22 silly registry.get     via: '1.1 varnish',
+22 silly registry.get     age: '0',
+22 silly registry.get     connection: 'keep-alive',
+22 silly registry.get     'x-served-by': 'cache-mia17628-MIA',
+22 silly registry.get     'x-cache': 'MISS',
+22 silly registry.get     'x-cache-hits': '0',
+22 silly registry.get     'x-timer': 'S1520120951.997772,VS0,VE175',
+22 silly registry.get     vary: 'Accept-Encoding, Accept' } ]
+23 silly addNameRange number 2 { name: 'create-react-app', range: '*', hasData: true }
+24 silly addNameRange versions [ 'create-react-app',
+24 silly addNameRange   [ '0.0.0',
+24 silly addNameRange     '0.1.0',
+24 silly addNameRange     '0.2.0-alpha.1',
+24 silly addNameRange     '0.2.0',
+24 silly addNameRange     '0.3.0',
+24 silly addNameRange     '0.4.2',
+24 silly addNameRange     '0.4.2-alpha.8f28c56e',
+24 silly addNameRange     '0.5.0',
+24 silly addNameRange     '0.6.0',
+24 silly addNameRange     '0.6.0-alpha.e756d73a',
+24 silly addNameRange     '0.6.0-alpha.9c45b252',
+24 silly addNameRange     '0.7.0',
+24 silly addNameRange     '1.0.0',
+24 silly addNameRange     '1.0.1',
+24 silly addNameRange     '1.0.2',
+24 silly addNameRange     '1.0.3',
+24 silly addNameRange     '1.0.4',
+24 silly addNameRange     '1.1.0',
+24 silly addNameRange     '1.2.0',
+24 silly addNameRange     '1.2.1',
+24 silly addNameRange     '1.3.0',
+24 silly addNameRange     '1.3.0-alpha.58689133',
+24 silly addNameRange     '1.3.0-alpha.dadf93b2',
+24 silly addNameRange     '1.3.0-alpha.134d2297',
+24 silly addNameRange     '1.3.0-alpha.e280254d',
+24 silly addNameRange     '1.3.0-alpha.c82c4f05',
+24 silly addNameRange     '1.3.0-alpha.0d0536f9',
+24 silly addNameRange     '1.3.0-alpha.02968ecd',
+24 silly addNameRange     '1.3.0-alpha.55afd862',
+24 silly addNameRange     '1.3.1',
+24 silly addNameRange     '1.3.1-alpha.60ae2b6d',
+24 silly addNameRange     '1.3.2',
+24 silly addNameRange     '1.3.3',
+24 silly addNameRange     '1.4.0',
+24 silly addNameRange     '1.4.1',
+24 silly addNameRange     '1.4.2',
+24 silly addNameRange     '1.4.3',
+24 silly addNameRange     '1.5.0',
+24 silly addNameRange     '2.0.0-next.096703ab',
+24 silly addNameRange     '2.0.0-next.9754a231',
+24 silly addNameRange     '1.5.1',
+24 silly addNameRange     '2.0.0-next.03604a46',
+24 silly addNameRange     '2.0.0-next.47d2d941',
+24 silly addNameRange     '1.5.2' ] ]
+25 verbose addNamed [ 'create-react-app', '1.5.2' ]
+26 verbose addNamed [ '1.5.2', '1.5.2' ]
+27 silly lockFile bd985362-create-react-app-1-5-2 create-react-app@1.5.2
+28 verbose lock create-react-app@1.5.2 /home/theconspiracy/.npm/bd985362-create-react-app-1-5-2.lock
+29 silly lockFile 4561eeb4-t-app-create-react-app-1-5-2-tgz https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz
+30 verbose lock https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz /home/theconspiracy/.npm/4561eeb4-t-app-create-react-app-1-5-2-tgz.lock
+31 verbose addRemoteTarball [ 'https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz',
+31 verbose addRemoteTarball   '2639e5d2f88e8777977beb6a8d9cbc04cf70091e' ]
+32 info retry fetch attempt 1 at 18:49:08
+33 verbose fetch to= /home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz
+34 http GET https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz
+35 http 200 https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz
+36 verbose tar unpack /home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz
+37 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+38 verbose lock tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package /home/theconspiracy/.npm/30c83c51-48300-0-3602652349509299-package.lock
+39 silly lockFile eee46c62-48300-0-3602652349509299-tmp-tgz tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz
+40 verbose lock tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz /home/theconspiracy/.npm/eee46c62-48300-0-3602652349509299-tmp-tgz.lock
+41 silly gunzTarPerm modes [ '755', '644' ]
+42 silly gunzTarPerm extractEntry package.json
+43 silly gunzTarPerm extractEntry createReactApp.js
+44 silly gunzTarPerm extractEntry index.js
+45 silly gunzTarPerm extractEntry README.md
+46 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+47 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+48 silly lockFile eee46c62-48300-0-3602652349509299-tmp-tgz tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz
+49 silly lockFile eee46c62-48300-0-3602652349509299-tmp-tgz tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/tmp.tgz
+50 verbose tar pack [ '/home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz',
+50 verbose tar pack   '/home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package' ]
+51 verbose tarball /home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+52 verbose folder /home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+53 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+54 verbose lock tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package /home/theconspiracy/.npm/30c83c51-48300-0-3602652349509299-package.lock
+55 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+56 verbose lock tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz /home/theconspiracy/.npm/57f50910-eate-react-app-1-5-2-package-tgz.lock
+57 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+58 silly lockFile 30c83c51-48300-0-3602652349509299-package tar:///home/theconspiracy/tmp/npm-15642-1jrFu21W/1520120948300-0.3602652349509299/package
+59 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+60 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+61 silly lockFile 9127c5b3-m-create-react-app-1-5-2-package /home/theconspiracy/.npm/create-react-app/1.5.2/package
+62 verbose lock /home/theconspiracy/.npm/create-react-app/1.5.2/package /home/theconspiracy/.npm/9127c5b3-m-create-react-app-1-5-2-package.lock
+63 silly lockFile 9127c5b3-m-create-react-app-1-5-2-package /home/theconspiracy/.npm/create-react-app/1.5.2/package
+64 silly lockFile 9127c5b3-m-create-react-app-1-5-2-package /home/theconspiracy/.npm/create-react-app/1.5.2/package
+65 verbose tar unpack /home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+66 silly lockFile b8ded031-m-create-react-app-1-5-2-package tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package
+67 verbose lock tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package /home/theconspiracy/.npm/b8ded031-m-create-react-app-1-5-2-package.lock
+68 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+69 verbose lock tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz /home/theconspiracy/.npm/57f50910-eate-react-app-1-5-2-package-tgz.lock
+70 silly gunzTarPerm modes [ '755', '644' ]
+71 silly gunzTarPerm extractEntry package.json
+72 silly gunzTarPerm extractEntry README.md
+73 silly gunzTarPerm extractEntry createReactApp.js
+74 silly gunzTarPerm extractEntry index.js
+75 silly lockFile b8ded031-m-create-react-app-1-5-2-package tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package
+76 silly lockFile b8ded031-m-create-react-app-1-5-2-package tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package
+77 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+78 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+79 verbose chmod /home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz 644
+80 verbose chown /home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz [ 1000, 1000 ]
+81 silly lockFile 4561eeb4-t-app-create-react-app-1-5-2-tgz https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz
+82 silly lockFile 4561eeb4-t-app-create-react-app-1-5-2-tgz https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz
+83 silly lockFile bd985362-create-react-app-1-5-2 create-react-app@1.5.2
+84 silly lockFile bd985362-create-react-app-1-5-2 create-react-app@1.5.2
+85 silly lockFile e90bd262-create-react-app create-react-app@
+86 silly lockFile e90bd262-create-react-app create-react-app@
+87 silly resolved [ { name: 'create-react-app',
+87 silly resolved     version: '1.5.2',
+87 silly resolved     keywords: [ 'react' ],
+87 silly resolved     description: 'Create React apps with no build configuration.',
+87 silly resolved     repository:
+87 silly resolved      { type: 'git',
+87 silly resolved        url: 'git://github.com/facebookincubator/create-react-app' },
+87 silly resolved     license: 'MIT',
+87 silly resolved     engines: { node: '>=4' },
+87 silly resolved     bugs: { url: 'https://github.com/facebookincubator/create-react-app/issues' },
+87 silly resolved     files: [ 'index.js', 'createReactApp.js' ],
+87 silly resolved     bin: { 'create-react-app': './index.js' },
+87 silly resolved     dependencies:
+87 silly resolved      { chalk: '^1.1.1',
+87 silly resolved        commander: '^2.9.0',
+87 silly resolved        'cross-spawn': '^4.0.0',
+87 silly resolved        envinfo: '3.4.2',
+87 silly resolved        'fs-extra': '^1.0.0',
+87 silly resolved        hyperquest: '^2.1.2',
+87 silly resolved        semver: '^5.0.3',
+87 silly resolved        'tar-pack': '^3.4.0',
+87 silly resolved        tmp: '0.0.31',
+87 silly resolved        'validate-npm-package-name': '^3.0.0' },
+87 silly resolved     readme: '# create-react-app\n\nThis package includes the global command for [Create React App](https://github.com/facebookincubator/create-react-app).<br>\nPlease refer to its documentation:\n\n* [Getting Started](https://github.com/facebookincubator/create-react-app/blob/master/README.md#getting-started) – How to create a new app.\n* [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.\n',
+87 silly resolved     readmeFilename: 'README.md',
+87 silly resolved     _id: 'create-react-app@1.5.2',
+87 silly resolved     dist: { shasum: '3f47ff81fc9eacbff28152dc9f2d7000ef2f4031' },
+87 silly resolved     _from: 'create-react-app@',
+87 silly resolved     _resolved: 'https://registry.npmjs.org/create-react-app/-/create-react-app-1.5.2.tgz' } ]
+88 info install create-react-app@1.5.2 into /usr/local/lib
+89 info installOne create-react-app@1.5.2
+90 warn engine create-react-app@1.5.2: wanted: {"node":">=4"} (current: {"node":"v0.10.25","npm":"1.3.10"})
+91 info /usr/local/lib/node_modules/create-react-app unbuild
+92 verbose tar unpack /home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+93 silly lockFile 1a9bb118-ib-node-modules-create-react-app tar:///usr/local/lib/node_modules/create-react-app
+94 verbose lock tar:///usr/local/lib/node_modules/create-react-app /home/theconspiracy/.npm/1a9bb118-ib-node-modules-create-react-app.lock
+95 silly lockFile 57f50910-eate-react-app-1-5-2-package-tgz tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz
+96 verbose lock tar:///home/theconspiracy/.npm/create-react-app/1.5.2/package.tgz /home/theconspiracy/.npm/57f50910-eate-react-app-1-5-2-package-tgz.lock
+97 silly gunzTarPerm modes [ '755', '644' ]
+98 error Error: EACCES, mkdir '/usr/local/lib/node_modules/create-react-app'
+98 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/create-react-app']
+98 error   errno: 3,
+98 error   code: 'EACCES',
+98 error   path: '/usr/local/lib/node_modules/create-react-app',
+98 error   fstream_type: 'Directory',
+98 error   fstream_path: '/usr/local/lib/node_modules/create-react-app',
+98 error   fstream_class: 'DirWriter',
+98 error   fstream_stack:
+98 error    [ '/usr/lib/nodejs/fstream/lib/dir-writer.js:36:23',
+98 error      '/usr/lib/nodejs/mkdirp/index.js:37:53',
+98 error      'Object.oncomplete (fs.js:107:15)' ] }
+99 error Please try running this command again as root/Administrator.
+100 error System Linux 3.13.0-135-generic
+101 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "-g" "create-react-app"
+102 error cwd /home/theconspiracy/documents/compsci/programming competitions/hackfsu2018/ryangui
+103 error node -v v0.10.25
+104 error npm -v 1.3.10
+105 error path /usr/local/lib/node_modules/create-react-app
+106 error fstream_path /usr/local/lib/node_modules/create-react-app
+107 error fstream_type Directory
+108 error fstream_class DirWriter
+109 error code EACCES
+110 error errno 3
+111 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/create-react-app'
+112 error fstream_stack /usr/lib/nodejs/fstream/lib/dir-writer.js:36:23
+112 error fstream_stack /usr/lib/nodejs/mkdirp/index.js:37:53
+112 error fstream_stack Object.oncomplete (fs.js:107:15)
+113 verbose exit [ 3, true ]
