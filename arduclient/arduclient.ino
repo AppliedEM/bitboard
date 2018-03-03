@@ -2,6 +2,7 @@
 #include "BigNumber.h"
 #include "point.h"
 #include "ecdsa.h"
+#include "wallet.h"
 
 //s120|107303582290733097924842193972465022053148211775194373671539518313500194639752|31263864094075372764364165952345735120266142355350224183303394048209903603471|
 //const char* s = "115792089237316195423570985008687907852837564279074904382605163141518161494337";
@@ -13,7 +14,7 @@ const int timeout = 20;
 const bn privatekey = "1337";
 const char delim = '|';
 
-char wallet[200] = {0};
+//char wallet[200] = {0};
 
 void printBignum (BigNumber & n)
 {
@@ -91,16 +92,14 @@ void loop()
     if(b == signbyte)
     {
       handlesign();
-    } 
-    /* // TODO
+    }
     else if (b == walletbyte)
     {
-      new_wallet();  
-    }
+      write_wallet();  
+    } 
     else if (b == verifywalletbyte)
     {
       verify_wallet();
     }
-    */
   }
 }
