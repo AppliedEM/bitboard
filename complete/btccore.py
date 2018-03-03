@@ -130,12 +130,12 @@ def build_transaction3(pubkey, value, fee):
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
-def wiftoprivate(self, wifstring):
+def wiftoprivate(wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
     return int(bs,16)
 
-def changewallet(privkey_wip):
-    privkey = wiftoprivate(privkey_wip)
+def changewallet(privkey_wif):
+    priv = PrivateKey(privkey_wif)
     ardubridge.writewallet(str(privkey))
 
 total = int(2.56*100000000)
@@ -164,9 +164,19 @@ def debug1():
     print(sig.s)
 
 def debug2():
-    a=1
+    p = PrivateKey(13370)
+    priv = wiftoprivate(p.wif())
+    print("expected private key:")
+    print(priv)
+    changewallet(p.wif())
+
+def debug3():
+    x,y = ardubridge.getpubkey()
+    print(x)
+    print(y)
 
 #debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
-print(build_transaction3(taddr2, 1*sats, .01*sats))
+#print(build_transaction3(taddr2, 1*sats, .01*sats))
+debug3()
