@@ -13,6 +13,7 @@
 //BigNumber N = BigNumber(s);
 const char signbyte = 's';
 const char walletbyte = 'w';
+const char setpublicbyte = 'l';
 const char verifywalletbyte = 'v';
 const char publicbyte = 'p';
 
@@ -20,13 +21,13 @@ String wallet_priv = String("439133975941449965125802959603671865413661688955076
 String wallet_pubx = String("53237820045986896539096637357322002537362350769420441605069248472301971758546");
 String wallet_puby = String("49407176618187043960559197373734381057571970898731550795341045595301080938882");
 
-int  wallet_priv_addr = 0;
-int  wallet_pubx_addr = 200;
-int  wallet_puby_addr = 400;
+int  wallet_priv_addr = 100;
+int  wallet_pubx_addr = 300;
+int  wallet_puby_addr = 500;
 
 const int timeout = 20;
 const bn privatekey = "1337";
-const char delim = '|';
+char delim = '|';
 
 //char wallet[200] = {0};
 
@@ -63,8 +64,19 @@ void setup()
 {
   BigNumber::begin();
   Serial.begin(115200);
+  EEPROM.begin(wallet_puby_addr+200);
+  wallet_priv = read_wallet(wallet_priv_addr);
+  wallet_pubx = read_wallet(wallet_pubx_addr);
+  wallet_puby = read_wallet(wallet_puby_addr);
+  Serial.println("privkey:");
   Serial.println(wallet_priv);
+  Serial.println("pubkeyx:");
+  Serial.println(wallet_pubx);
+  Serial.println("pubkeyy:");
+  Serial.println(wallet_puby);
+
   init_imu();
+
 }
 
 void waitforbuffer(const int timeout)
@@ -107,7 +119,29 @@ bn handlesign()
   Serial.println(sig.y.toString());
 }
 
+void writetomemory(String val, int addr)
+{
+  for(int x = 0; x< val.length(); x++)
+  {
+    EEPROM.write(addr+x, val[x]);
+  }
+  EEPROM.write(addr+val.length(), delim);
+  EEPROM.commit();
+}
 
+void handleprivatekey()
+{
+  String priv = readuntil(delim);
+  writetomemory(priv, wallet_priv_addr);
+}
+
+void handlepublickey()
+{
+  String x = readuntil(delim);
+  String y = readuntil(delim);
+  writetomemory(x, wallet_pubx_addr);
+  writetomemory(y, wallet_puby_addr);
+}
 
 void loop()
 {
@@ -120,7 +154,7 @@ void loop()
     }
     else if (b == walletbyte) //FIXME
     {
-      write_wallet_private();
+      handleprivatekey();
     }
     else if (b == verifywalletbyte)
     {
@@ -134,6 +168,10 @@ void loop()
     else if(b == publicbyte)
     {
 		    share_pub();
+    }
+    else if(b == setpublicbyte)
+    {
+      handlepublickey();
     }
   }
 }

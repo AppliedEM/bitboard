@@ -7,6 +7,7 @@ extern int  wallet_puby_addr;
 extern String wallet_priv;
 extern String wallet_pubx;
 extern String wallet_puby;
+extern const char delim;
 
 char write_wallet_private(){ //Read wallet into memory and copy to eeprom
   delay(20);
@@ -83,9 +84,15 @@ char share_pub(){
   }
 }
 
-//XXX: Needs testing
-void read_wallet(int *source, int *dest){
-    for(int i = *source; i<200; i++){
-        dest[i] = EEPROM.read(i);
-    }
+String read_wallet(int begin)
+{
+  char b = (char)EEPROM.read(begin);
+  String outp = "" + String(b);
+  for(int i = begin+1; i<begin+200 && b != delim; i++)
+  {
+    b = EEPROM.read(i);
+    if(b != delim)
+      outp = outp + String(b);
+  }
+  return outp;
 }
