@@ -5,26 +5,28 @@ This masterpiece was crafted by the humble yet awesome Michael van Dyk on 02/27/
 Please note that one or two variable names may be NSFW
 """
 import requests
+import json
+import pprint
 
 def grab_utxos(address,on_testnet): # Bitcoin address
-	block_info_url = "https://blockchain.info/unspent?active=" 
-	testnet_url = "https://testnet.blockchain.info/unspent?active=" 
+	block_info_url = "https://blockchain.info/unspent?active="
+	testnet_url = "https://testnet.blockchain.info/unspent?active="
 	if on_testnet == True:
 		solicitation = requests.get(testnet_url + address)
-	else:	
+	else:
 		solicitation = requests.get(block_info_url + address)
 	try:
-		return solicitation.json()	
+		return solicitation.json()
 	except:
 		return solicitation.content
 
-def sum_utxos(utxo_dict): 
+def sum_utxos(utxo_dict):
 	johns_bill = 0
 	for ticket in utxo_dict['unspent_outputs']:
 		johns_bill+=ticket['value']
 	return johns_bill #note this is measured in satoshi, not BTC
 
-def find_bigga_dolla(utxo_dict, price):	
+def find_bigga_dolla(utxo_dict, price):
 	for ticket in utxo_dict['unspent_outputs']:
 		if ticket['value'] > price:
 			return ticket['tx_hash']
@@ -43,4 +45,7 @@ def runtests():
 	assert(find_bigga_dolla(hi,202020) == False)
 
 if __name__ == "__main__":
-	runtests()
+	dat = grab_utxos('n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe',True)
+	print(dat)
+	pp = pprint.PrettyPrinter(indent=4)
+	pp.pprint(dat)

@@ -672,6 +672,8 @@ class PrivateKey:
             self.secret = secret
         else:
             self.secret = self.wiftoprivate(secret)#int.from_bytes(secret, byteorder='big', signed=False)
+            print("private-key: ")
+            print(self.secret)
         self.point = self.secret*G
 
     def hex(self):
