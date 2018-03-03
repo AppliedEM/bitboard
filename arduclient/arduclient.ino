@@ -92,10 +92,12 @@ bn handlesign()
   String z = readuntil(delim);
   String r = readuntil(delim);
   String k_inv = readuntil(delim);
-  point sig = ecdsa::sign(bn(z.c_str()), bn(r.c_str()), bn(k_inv.c_str()), privatekey);
-  Serial.println(sig.x.toString()+String(delim));
-  Serial.println(sig.y.toString()+String(delim));
+  point sig = ecdsa::sign(bn(z.c_str()), bn(r.c_str()), bn(k_inv.c_str()), bn(wallet_priv.c_str()));
+  Serial.println(sig.x.toString());
+  Serial.println(sig.y.toString());
 }
+
+
 
 void loop()
 {
@@ -121,7 +123,7 @@ void loop()
     }
     else if(b == publicbyte)
     {
-		share_pub();
+		    share_pub();
     }
   }
 }

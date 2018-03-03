@@ -4,6 +4,7 @@ from io import BytesIO
 from random import randint
 from unittest import TestCase
 from ecc import G
+import time
 
 delim = b'|'
 sername = '/dev/ttyUSB0';
@@ -23,20 +24,23 @@ def getsiginputs():
     r = (k*G).x.num
     k_inv = pow(k, N-2, N)
     return r,k_inv
-
+'''
 def gettoken():
     out = ''
-    s = ser.read()
+    s = ser.read().decode("utf-8")
+    print(s)
     while s != delim:
-        out = out + s.decode("utf-8")
-        s = ser.read()
+        out = out + s
+        s = ser.read().decode("utf-8")
     return out
-
+'''
 def signwvars(z, r, k_inv):
     outp = signchar + bytearray(str(z), 'UTF-8') + delim + bytearray(str(r), 'UTF-8') + delim + bytearray(str(k_inv), 'UTF-8') + delim
+    print("hash:")
+    print(outp)
     ser.write(outp)
-    s1 = gettoken().strip()
-    s2 = gettoken().strip()
+    s1 = ser.readline().strip()#gettoken().strip()
+    s2 = ser.readline().strip()#gettoken().strip()
     return s1, s2
 
 def sign(z):
@@ -45,8 +49,10 @@ def sign(z):
 
 def getpubkey():
     ser.write(pubkeychar)
-    x = gettoken().strip()
-    y = gettoken().strip()
+    x = ser.readline().strip()
+    print(x)
+    y = ser.readline().strip()
+    print(y)
     return x,y
 
 #verify(z, r, k_inv)

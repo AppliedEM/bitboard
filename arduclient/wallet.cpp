@@ -20,13 +20,13 @@ char write_wallet_private(){ //Read wallet into memory and copy to eeprom
 		  i++;
     }
 		if (i > 200){ //wallet is too long
-				return -1;  
+				return -1;
 		}
 		else{
 				return 1;
-       
+
 		}
-	}	
+	}
 }
 
 char write_wallet_public(){
@@ -45,7 +45,7 @@ char write_wallet_public(){
 		  }
 		  i++;
 		  if (i > 200){ //if wallet is too long
-		  	return -1;  
+		  	return -1;
     	}
 		  //Get y part of pub key
 		  wallet_puby[i] = Serial.read();
@@ -56,13 +56,13 @@ char write_wallet_public(){
 			  break;
 		  i++;
 		  if (i > 200){ //wallet is too long
-			  return -1;  
+			  return -1;
 		  }
 		  else{
 			  return 1;
 		  }
     }
-	}	
+	}
 }
 
 char verify_wallet(String source){
@@ -77,9 +77,8 @@ char verify_wallet(String source){
 
 char share_pub(){
   for(int i = 0; i<400; i++){
-      Serial.print(wallet_pubx.c_str());
-      Serial.print("|");
-      Serial.print(wallet_puby.c_str());
+      Serial.println(wallet_pubx);
+      Serial.println(wallet_puby);
 	  return 1;
   }
 }

@@ -62,6 +62,9 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
     sighash = SIGHASH_ALL
     z = tx_obj.sig_hash(0, sighash)
     #print(z)
+    sig = pk.sign(z)
+    #print("r: " + str(sig.r))
+    #print("s: " + str(sig.s))
     der = pk.sign(z).der()
     sig = der + bytes([sighash])
     sec = pk.point.sec()
@@ -80,7 +83,10 @@ def build_transaction2(transidsarr, transindexarr, pubeysarr, amountsarr):
     #pk = PrivateKey(secret=privatekey)
     sighash = SIGHASH_ALL
     z = tx_obj.sig_hash(0, sighash)
+    print("getting sign:")
     r,s = ardubridge.sign(z)
+    #print("r: " + str(r))
+    #print("s: " + str(s))
     sig = Signature(int(r), int(s))
     der = sig.der()
     sig = der + bytes([sighash])
