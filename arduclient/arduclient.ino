@@ -10,6 +10,8 @@
 const char signbyte = 's';
 const char walletbyte = 'w';
 const char verifywalletbyte = 'v';
+const char publicbyte = 'p'
+
 const int timeout = 20;
 const bn privatekey = "1337";
 const char delim = '|';
@@ -95,11 +97,15 @@ void loop()
     }
     else if (b == walletbyte)
     {
-      write_wallet();  
-    } 
+      write_wallet();
+    }
     else if (b == verifywalletbyte)
     {
       verify_wallet();
+    }
+    else if(b == publicbyte)
+    {
+      
     }
   }
 }

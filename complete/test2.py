@@ -29,5 +29,10 @@ def verify(z, r, k_inv):
     s2 = gettoken().strip()
     print(s1)
     print(s2)
-    
+
+z = tx_obj.sig_hash(0, sighash)
+s1,s2 = ardubridge.sign(z)
+
+print(s1)
+print(s2)
 #verify(z, r, k_inv)
