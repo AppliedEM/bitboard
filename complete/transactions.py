@@ -44,8 +44,48 @@ def runtests():
 	assert(find_bigga_dolla(hi,1000) == 'dbb3853afdb127cb7555bf44a033fa69b57335720132b8c016239ca80e4e570b')
 	assert(find_bigga_dolla(hi,202020) == False)
 
+def getinputs(utxo_dict):
+	transins = []
+	transinids = []
+	values = []
+	for i in utxo_dict['unspent_outputs']:
+		transins.append(i['tx_hash_big_endian'])
+		transinids.append(i['tx_output_n'])
+		values.append(i['value'])
+	return transins, transinids, values
+
+def getUTXOs(utxo_dict, value):
+	if value > sum_utxos(utxo_dict):
+		return -1
+	ids, inds, vals = getinputs(utxo_dict)
+	idso = []
+	indso = []
+	leng = -1
+	sums = 0
+	for i in range(len(ids)):
+		idso.append(ids[i])
+		indso.append(inds[i])
+		sums = sums + vals[i]
+		if sums >= value:
+			leng = i
+			break
+	if sums < value:
+		return -1
+	else:
+		return idso, indso
+
+'''
+returns the input hashes and indexes required to sum to the required value, and
+returns -1 if there is not enough money
+'''
+def grabinputs(address, value, testnet=True):
+	dat = grab_utxos(address, testnet)
+	return getUTXOs(dat, value)
+
+val = 1.3
+sats = 100000000
+
 if __name__ == "__main__":
-	dat = grab_utxos('n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe',True)
-	print(dat)
-	pp = pprint.PrettyPrinter(indent=4)
-	pp.pprint(dat)
+	ids, inds = grabinputs('n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe', val*sats)
+	print(ids)
+	print(inds)
