@@ -130,6 +130,14 @@ def build_transaction3(pubkey, value, fee):
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
+def wiftoprivate(self, wifstring):
+    bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
+    return int(bs,16)
+
+def changewallet(privkey_wip):
+    privkey = wiftoprivate(privkey_wip)
+    ardubridge.writewallet(str(privkey))
+
 total = int(2.56*100000000)
 fee = 10000000
 

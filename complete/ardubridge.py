@@ -10,6 +10,7 @@ delim = b'|'
 sername = '/dev/ttyUSB0';
 signchar = b's'
 pubkeychar = b'p'
+walletchar = b'w'
 N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 #z = b'120'
@@ -54,5 +55,8 @@ def getpubkey():
     y = ser.readline().strip()
     print(y)
     return x,y
+
+def writewallet(privkey):
+    ser.write(walletchar + bytearray(privkey, 'UTF-8') + delim)
 
 #verify(z, r, k_inv)
