@@ -3,6 +3,7 @@
 #include "point.h"
 #include "ecdsa.h"
 #include "wallet.h"
+#include "jerk.h"
 
 //s120|107303582290733097924842193972465022053148211775194373671539518313500194639752|31263864094075372764364165952345735120266142355350224183303394048209903603471|
 //private: 43913397594144996512580295960367186541366168895507672003765477422550381072204
@@ -29,6 +30,7 @@ const char delim = '|';
 
 //char wallet[200] = {0};
 
+
 void printBignum (BigNumber & n)
 {
   char * s = n.toString ();
@@ -52,13 +54,17 @@ void debug1()
   point p3 = ecdsa::sign(z, r, k_inv, secret);
   Serial.println(p3.tostring());
   Serial.println("finished sign.");
-}
+  }
 
+
+uint32_t jerk = 0;
+static int taskCore = 0;
 void setup()
 {
   BigNumber::begin();
   Serial.begin(115200);
-
+  Serial.println(wallet_priv);
+  init_imu();
 }
 
 void waitforbuffer(const int timeout)
@@ -93,6 +99,10 @@ bn handlesign()
   String r = readuntil(delim);
   String k_inv = readuntil(delim);
   point sig = ecdsa::sign(bn(z.c_str()), bn(r.c_str()), bn(k_inv.c_str()), bn(wallet_priv.c_str()));
+  while(jerk < 600){
+  	jerk = jerkometer();
+	//Serial.println(jerk);
+  }
   Serial.println(sig.x.toString());
   Serial.println(sig.y.toString());
 }
