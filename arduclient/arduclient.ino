@@ -60,14 +60,20 @@ void debug1()
 
 uint32_t jerk = 0;
 static int taskCore = 0;
+
+void initvalues()
+{
+  wallet_priv = String(read_wallet(wallet_priv_addr));
+  wallet_pubx = String(read_wallet(wallet_pubx_addr));
+  wallet_puby = String(read_wallet(wallet_puby_addr));
+}
+
 void setup()
 {
   BigNumber::begin();
   Serial.begin(115200);
   EEPROM.begin(wallet_puby_addr+200);
-  wallet_priv = read_wallet(wallet_priv_addr);
-  wallet_pubx = read_wallet(wallet_pubx_addr);
-  wallet_puby = read_wallet(wallet_puby_addr);
+  initvalues();
   Serial.println("privkey:");
   Serial.println(wallet_priv);
   Serial.println("pubkeyx:");
@@ -111,10 +117,7 @@ bn handlesign()
   String r = readuntil(delim);
   String k_inv = readuntil(delim);
   point sig = ecdsa::sign(bn(z.c_str()), bn(r.c_str()), bn(k_inv.c_str()), bn(wallet_priv.c_str()));
-  while(jerk < 600){
-  	jerk = jerkometer();
-	//Serial.println(jerk);
-  }
+
   Serial.println(sig.x.toString());
   Serial.println(sig.y.toString());
 }
@@ -155,6 +158,7 @@ void loop()
     else if (b == walletbyte) //FIXME
     {
       handleprivatekey();
+      initvalues();
     }
     else if (b == verifywalletbyte)
     {
@@ -167,11 +171,12 @@ void loop()
     }
     else if(b == publicbyte)
     {
-		    share_pub();
+      share_pub();
     }
     else if(b == setpublicbyte)
     {
       handlepublickey();
+      initvalues();
     }
   }
 }

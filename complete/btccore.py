@@ -14,14 +14,13 @@ from btctools import wiftonum, validwif, Key
 
 #privatekey = 1337
 privatekey = 'cQqRbFo7TCTxQ5hNUeh9uBai4VCBK6YL9JRnujmM95hDFA8bqwNX'
-privatekey2 = b'cTeJE6qL8FUP6RGfKiS8Ji61ncMPJzdFtuv9s5TkpYyHbZ8EisSX'
-privatekey3 = b'91sSDyirZWESRWzaooVpxNr29ci1Fi53SZLJq1BGBP2kq8UVekj'
+privatekey2 = 'cTeJE6qL8FUP6RGfKiS8Ji61ncMPJzdFtuv9s5TkpYyHbZ8EisSX'
+privatekey3 = '91sSDyirZWESRWzaooVpxNr29ci1Fi53SZLJq1BGBP2kq8UVekj'
 
-#test address: n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe
 taddr1 = 'n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe'
-#test address2: mr2wLxerAQbHRDSL1sgdXLjdB21hCTMPm3
 taddr2 = 'mr2wLxerAQbHRDSL1sgdXLjdB21hCTMPm3'
-#test address3: mya7sDff3K4ma39tebBKtjD8UTnCxtWPV9
+taddr3 = 'mreQgXtz3rim9B5PSdWVFT7a3hHdxRF9rW'
+
 
 #transid = 'a213e9d57bc96c2b289dc7217b2eec8ba2aec49749f11dd36ad1a12d9677c451'
 transid = '1b4c79d48515ec83b23b0696711f397afa619df51f199f10eeb7341ae5fd4a31'
@@ -79,7 +78,11 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
 
 def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr):
     tx_ins = buildinputs(transidsarr, transindexarr)
+    #print("ins")
+    print(tx_ins)
     tx_outs = buildoutputs(pubkeysarr, amountsarr)
+    #print("outs")
+    print(tx_outs)
     tx_obj = Tx(version=1, tx_ins=tx_ins, tx_outs=tx_outs, locktime=0, testnet=True)
     #hash_type = SIGHASH_ALL
     #z = tx_obj.sig_hash(0, hash_type)
@@ -119,14 +122,11 @@ def getaddress(x,y, testnet=True, compressed=True):
     total = raw + checksum
     return encode_base58(total)
 
-sats = 100000000
-
 def build_transaction3(pubkey, value, fee):
     x,y = ardubridge.getpubkey()
-    print("pubkey:")
     addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
+    p = PrivateKey(privatekey3)
     addrs = addr.decode("UTF-8")
-    print(addrs)
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
@@ -136,10 +136,22 @@ def wiftoprivate(wifstring):
 
 def changewallet(privkey_wif):
     priv = PrivateKey(privkey_wif)
-    ardubridge.writewallet(str(privkey))
+    sec = str(priv.secret)
+    print("sec")
+    print(sec)
+    print(len(sec))
+    x = str(int(str(priv.point.x), 16))
+    print("x")
+    print(x)
+    y = str(int(str(priv.point.y), 16))
+    print("y")
+    print(y)
+    ardubridge.writewallet(sec)
+    ardubridge.writepubkey(x,y)
 
 total = int(2.56*100000000)
 fee = 10000000
+sats = 100000000
 
 unspent = total-fee
 
@@ -178,5 +190,6 @@ def debug3():
 #debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
-#print(build_transaction3(taddr2, 1*sats, .01*sats))
-debug3()
+changewallet(privatekey2)
+print(build_transaction3(taddr3, .1*sats, .005*sats))
+#debug3()
