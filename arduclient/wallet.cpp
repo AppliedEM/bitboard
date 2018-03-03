@@ -4,9 +4,9 @@
 extern int  wallet_priv_addr;
 extern int  wallet_pubx_addr;
 extern int  wallet_puby_addr;
-extern char wallet_priv[200];
-extern char wallet_pubx[200];
-extern char wallet_puby[200];
+extern String wallet_priv;
+extern String wallet_pubx;
+extern String wallet_puby;
 
 char write_wallet_private(){ //Read wallet into memory and copy to eeprom
   delay(20);
@@ -65,14 +65,23 @@ char write_wallet_public(){
 	}	
 }
 
-char verify_wallet(char source[]){
+char verify_wallet(String source){
 	//FIXME: Should hash rather than leak wallet
   for(int i = 0; i<200; i++){
     if (source[i] != '|')
       Serial.print(source[i]);
   }
-  Serial.println();
+  Serial.println("|");
 	return 0;
+}
+
+char share_pub(){
+  for(int i = 0; i<400; i++){
+      Serial.print(wallet_pubx.c_str());
+      Serial.print("|");
+      Serial.print(wallet_puby.c_str());
+	  return 1;
+  }
 }
 
 //XXX: Needs testing

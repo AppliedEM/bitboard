@@ -6,7 +6,8 @@
 
 char write_wallet_private();
 char write_wallet_public();
-char verify_wallet(char source[]);
+char verify_wallet(String source);
+char share_pub();
 void read_wallet(int *source, int *dest);
 
 #endif
