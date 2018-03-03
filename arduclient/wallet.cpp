@@ -13,7 +13,7 @@ char write_wallet_private(){ //Read wallet into memory and copy to eeprom
 	int i = 0;
   while(!Serial.available());
   char b = Serial.read();
-	if (b == '|'){
+	if (b != '|'){
     while(Serial.available()){
 		  wallet_priv[i] = Serial.read();
 		  EEPROM.write(wallet_priv_addr, wallet_priv[i]);
