@@ -2,32 +2,14 @@
 #include "BigNumber.h"
 #include "point.h"
 #include "ecdsa.h"
-#include "wallet.h"
 
 //s120|107303582290733097924842193972465022053148211775194373671539518313500194639752|31263864094075372764364165952345735120266142355350224183303394048209903603471|
-//private: 43913397594144996512580295960367186541366168895507672003765477422550381072204
-//pubx:    53237820045986896539096637357322002537362350769420441605069248472301971758546
-//puby:    49407176618187043960559197373734381057571970898731550795341045595301080938882
 //const char* s = "115792089237316195423570985008687907852837564279074904382605163141518161494337";
 //BigNumber N = BigNumber(s);
 const char signbyte = 's';
-const char walletbyte = 'w';
-const char verifywalletbyte = 'v';
-const char publicbyte = 'p';
-
-char wallet_priv[200] = "43913397594144996512580295960367186541366168895507672003765477422550381072204|";
-char wallet_pubx[200] = "53237820045986896539096637357322002537362350769420441605069248472301971758546|";
-char wallet_puby[200] = "49407176618187043960559197373734381057571970898731550795341045595301080938882|";
-
-int  wallet_priv_addr = 0;
-int  wallet_pubx_addr = 200;
-int  wallet_puby_addr = 400;
-
 const int timeout = 20;
 const bn privatekey = "1337";
 const char delim = '|';
-
-//char wallet[200] = {0};
 
 void printBignum (BigNumber & n)
 {
@@ -105,23 +87,6 @@ void loop()
     if(b == signbyte)
     {
       handlesign();
-    }
-    else if (b == walletbyte) //FIXME
-    {
-      write_wallet_private();
-    }
-    else if (b == verifywalletbyte)
-    {
-      verify_wallet(wallet_priv);
-	  Serial.println();
-      verify_wallet(wallet_pubx);
-	  Serial.println();
-      verify_wallet(wallet_puby);
-	  Serial.println();
-    }
-    else if(b == publicbyte)
-    {
-      write_wallet_public();
     }
   }
 }

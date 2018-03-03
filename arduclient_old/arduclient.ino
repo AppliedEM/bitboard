@@ -121,7 +121,11 @@ void loop()
     }
     else if(b == publicbyte)
     {
+<<<<<<< HEAD
+
+=======
       write_wallet_public();
+>>>>>>> cc1418afe6a62bae308833a75e839428711c2c38
     }
   }
 }
