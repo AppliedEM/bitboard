@@ -44,9 +44,22 @@ def find_bigga_dolla(utxo_dict, price):
 		if ticket['value'] > price:
 			return ticket['tx_hash']
 	return False
+def push_transaction(hex_hash, use_testnet):
+	global api_mainnet
+	global api_testnet
+	global push_suburl
+	payload = {"hex":hex_hash}
+	if not use_testnet:
+		upload_results = requests.post(api_mainnet + push_suburl,str(payload).replace("'","\""))
+	else:
+		upload_results = requests.post(api_testnet + push_suburl,str(payload).replace("'","\""))
+	return upload_results.json()
+	
 def runtests():
 	global book_address
 	global testnet_address
+	global smartbit_main_tx_hash
+	
 	hi = grab_utxos(book_address,False) #address corresponds to bitcoin book
 	bye = grab_utxos(testnet_address,True) #address from Ryan; only applies to testnet
 
@@ -58,6 +71,11 @@ def runtests():
 	assert(sum_utxos(bye)==260000000)
 	assert(find_bigga_dolla(hi,1000) == 'dbb3853afdb127cb7555bf44a033fa69b57335720132b8c016239ca80e4e570b')
 	assert(find_bigga_dolla(hi,202020) == False)
+	push_output = push_transaction(smartbit_main_tx_hash,False)
+	assert(push_output['error']['message'] == 'transaction already in block chain')
+	
+	
+
 
 if __name__ == "__main__":
 	runtests()
