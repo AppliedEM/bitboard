@@ -105,7 +105,7 @@ void loop()
     }
     else if(b == publicbyte)
     {
-      
+
     }
   }
 }

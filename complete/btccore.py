@@ -1,5 +1,5 @@
 from binascii import hexlify, unhexlify
-from ecc import PrivateKey, Signature
+from ecc import PrivateKey, Signature, S256Point
 from helper import decode_base58, p2pkh_script, SIGHASH_ALL, encode_base58
 from script import Script
 from tx import TxIn, TxOut, Tx
@@ -9,8 +9,8 @@ import base58
 
 from btctools import wiftonum, validwif, Key
 
-privatekey = 1337
-#privatekey = 'cQqRbFo7TCTxQ5hNUeh9uBai4VCBK6YL9JRnujmM95hDFA8bqwNX'
+#privatekey = 1337
+privatekey = 'cQqRbFo7TCTxQ5hNUeh9uBai4VCBK6YL9JRnujmM95hDFA8bqwNX'
 privatekey2 = b'cTeJE6qL8FUP6RGfKiS8Ji61ncMPJzdFtuv9s5TkpYyHbZ8EisSX'
 privatekey3 = b'91sSDyirZWESRWzaooVpxNr29ci1Fi53SZLJq1BGBP2kq8UVekj'
 
@@ -61,14 +61,14 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
     pk = PrivateKey(secret=privatekey)
     sighash = SIGHASH_ALL
     z = tx_obj.sig_hash(0, sighash)
-    print(z)
+    #print(z)
     der = pk.sign(z).der()
     sig = der + bytes([sighash])
     sec = pk.point.sec()
     tx_obj.tx_ins[0].script_sig = Script([sig, sec])
-    print("serialized:")
-    print(hexlify(Script([sig,sec]).serialize()))
-    print("----------")
+    #print("serialized:")
+    #print(hexlify(Script([sig,sec]).serialize()))
+    #print("----------")
     return hexlify(tx_obj.serialize())
 
 def build_transaction2(transidsarr, transindexarr, pubeysarr, amountsarr):
@@ -77,16 +77,22 @@ def build_transaction2(transidsarr, transindexarr, pubeysarr, amountsarr):
     tx_obj = Tx(version=1, tx_ins=tx_ins, tx_outs=tx_outs, locktime=0, testnet=True)
     hash_type = SIGHASH_ALL
     z = tx_obj.sig_hash(0, hash_type)
-    pk = PrivateKey(secret=privatekey)
+    #pk = PrivateKey(secret=privatekey)
     sighash = SIGHASH_ALL
     z = tx_obj.sig_hash(0, sighash)
-    der = pk.sign(z).der()
     r,s = ardubridge.sign(z)
-    newsig = Signature(int(r),int(s))
-    der = newsig.der()
+    sig = Signature(int(r), int(s))
+    der = sig.der()
     sig = der + bytes([sighash])
-    sec = pk.point.sec()
-    tx_obj.tx_ins[0].script_sig = Script([sig, sec])
+    #sec = pk.point.sec()
+    #print("public point:")
+    #print(int(pk.point.x.hex(), 16))
+    #print(int(pk.point.y.hex(), 16))
+    x,y = ardubridge.getpubkey()
+    #pub = S256Point(53237820045986896539096637357322002537362350769420441605069248472301971758546, 49407176618187043960559197373734381057571970898731550795341045595301080938882)
+    pub = S256Point(int(x), int(y))
+    sec2 = pub.sec()
+    tx_obj.tx_ins[0].script_sig = Script([sig, sec2])
     return hexlify(tx_obj.serialize())
 
 total = int(2.56*100000000)
@@ -101,7 +107,7 @@ pubkeysarr = [taddr1, taddr2]
 amountsarr = [.9*unspent, .1*unspent]
 
 def debug1():
-    z = 1337
+    z = 82736482736928392039492837498273984692387492
     pk = PrivateKey(secret = privatekey)
     r,s = ardubridge.sign(z)
     sig = pk.sign(z)
@@ -114,6 +120,9 @@ def debug1():
     print("s2: ")
     print(sig.s)
 
-debug1()
+def debug2():
+    a=1
+
+#debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
-#print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
+print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))

@@ -8,7 +8,7 @@
 //BigNumber N = BigNumber(s);
 const char signbyte = 's';
 const int timeout = 20;
-const bn privatekey = "1337";
+const bn privatekey = "43913397594144996512580295960367186541366168895507672003765477422550381072204";
 const char delim = '|';
 
 void printBignum (BigNumber & n)

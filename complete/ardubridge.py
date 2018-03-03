@@ -8,6 +8,7 @@ from ecc import G
 delim = b'|'
 sername = '/dev/ttyUSB0';
 signchar = b's'
+pubkeychar = b'p'
 N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 #z = b'120'
@@ -41,5 +42,11 @@ def signwvars(z, r, k_inv):
 def sign(z):
     r,k_inv = getsiginputs()
     return signwvars(z, r, k_inv)
+
+def getpubkey():
+    ser.write(pubkeychar)
+    x = gettoken().strip()
+    y = gettoken().strip()
+    return x,y
 
 #verify(z, r, k_inv)
