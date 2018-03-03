@@ -21,10 +21,10 @@ def grab_utxos(address,on_testnet): # Bitcoin address
 		return solicitation.content
 
 def sum_utxos(utxo_dict):
-	johns_bill = 0
-	for ticket in utxo_dict['unspent_outputs']:
-		johns_bill+=ticket['value']
-	return johns_bill #note this is measured in satoshi, not BTC
+	sum = 0
+	for i in utxo_dict['unspent_outputs']:
+		sum = sum + i['value']
+	return sum #note this is measured in satoshi, not BTC
 
 def find_bigga_dolla(utxo_dict, price):
 	for ticket in utxo_dict['unspent_outputs']:
@@ -55,6 +55,7 @@ def getinputs(utxo_dict):
 	return transins, transinids, values
 
 def getUTXOs(utxo_dict, value):
+	print(utxo_dict)
 	if value > sum_utxos(utxo_dict):
 		return -1
 	ids, inds, vals = getinputs(utxo_dict)
@@ -80,7 +81,9 @@ returns -1 if there is not enough money
 '''
 def grabinputs(address, value, testnet=True):
 	dat = grab_utxos(address, testnet)
-	return getUTXOs(dat, value)
+	total = sum_utxos(dat)
+	idso, indso, vals = getinputs(dat)
+	return idso, indso, total-value
 
 val = 1.3
 sats = 100000000

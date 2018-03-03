@@ -4,6 +4,9 @@ from helper import decode_base58, p2pkh_script, SIGHASH_ALL, encode_base58
 from script import Script
 from tx import TxIn, TxOut, Tx
 import ardubridge
+import transactions
+import base58
+from helper import double_sha256, encode_base58, encode_base58_checksum, hash160, decode_base58
 
 import base58
 
@@ -74,32 +77,58 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
     #print("----------")
     return hexlify(tx_obj.serialize())
 
-def build_transaction2(transidsarr, transindexarr, pubeysarr, amountsarr):
+def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr):
     tx_ins = buildinputs(transidsarr, transindexarr)
     tx_outs = buildoutputs(pubkeysarr, amountsarr)
     tx_obj = Tx(version=1, tx_ins=tx_ins, tx_outs=tx_outs, locktime=0, testnet=True)
-    hash_type = SIGHASH_ALL
-    z = tx_obj.sig_hash(0, hash_type)
+    #hash_type = SIGHASH_ALL
+    #z = tx_obj.sig_hash(0, hash_type)
     #pk = PrivateKey(secret=privatekey)
-    sighash = SIGHASH_ALL
-    z = tx_obj.sig_hash(0, sighash)
-    print("getting sign:")
-    r,s = ardubridge.sign(z)
-    #print("r: " + str(r))
-    #print("s: " + str(s))
-    sig = Signature(int(r), int(s))
-    der = sig.der()
-    sig = der + bytes([sighash])
-    #sec = pk.point.sec()
-    #print("public point:")
-    #print(int(pk.point.x.hex(), 16))
-    #print(int(pk.point.y.hex(), 16))
-    x,y = ardubridge.getpubkey()
-    #pub = S256Point(53237820045986896539096637357322002537362350769420441605069248472301971758546, 49407176618187043960559197373734381057571970898731550795341045595301080938882)
-    pub = S256Point(int(x), int(y))
-    sec2 = pub.sec()
-    tx_obj.tx_ins[0].script_sig = Script([sig, sec2])
+    for i in range(len(tx_ins)):
+        sighash = SIGHASH_ALL
+        z = tx_obj.sig_hash(i, sighash)
+        print("getting sign:")
+        r,s = ardubridge.sign(z)
+        #print("r: " + str(r))
+        #print("s: " + str(s))
+        sig = Signature(int(r), int(s))
+        der = sig.der()
+        sig = der + bytes([sighash])
+        #sec = pk.point.sec()
+        #print("public point:")
+        #print(int(pk.point.x.hex(), 16))
+        #print(int(pk.point.y.hex(), 16))
+        x,y = ardubridge.getpubkey()
+        #pub = S256Point(53237820045986896539096637357322002537362350769420441605069248472301971758546, 49407176618187043960559197373734381057571970898731550795341045595301080938882)
+        pub = S256Point(int(x), int(y))
+        sec2 = pub.sec()
+        tx_obj.tx_ins[i].script_sig = Script([sig, sec2])
     return hexlify(tx_obj.serialize())
+
+def getaddress(x,y, testnet=True, compressed=True):
+    p = S256Point(x,y)
+    comp = p.sec(compressed)
+    h160 = hash160(comp)
+    prefix = b'\00'
+    if testnet:
+        prefix = b'\x6f'
+    else:
+        prefix = b'\00'
+    raw = prefix+h160
+    checksum = double_sha256(raw)[:4]
+    total = raw + checksum
+    return encode_base58(total)
+
+sats = 100000000
+
+def build_transaction3(pubkey, value, fee):
+    x,y = ardubridge.getpubkey()
+    print("pubkey:")
+    addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
+    addrs = addr.decode("UTF-8")
+    print(addrs)
+    transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
+    return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
 total = int(2.56*100000000)
 fee = 10000000
@@ -131,4 +160,5 @@ def debug2():
 
 #debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
-print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
+#print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
+print(build_transaction3(taddr2, 1*sats, .01*sats))
