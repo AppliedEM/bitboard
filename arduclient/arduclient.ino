@@ -7,9 +7,13 @@
 //const char* s = "115792089237316195423570985008687907852837564279074904382605163141518161494337";
 //BigNumber N = BigNumber(s);
 const char signbyte = 's';
+const char walletbyte = 'w';
+const char verifywalletbyte = 'v';
 const int timeout = 20;
 const bn privatekey = "1337";
 const char delim = '|';
+
+char wallet[200] = {0};
 
 void printBignum (BigNumber & n)
 {
@@ -87,6 +91,16 @@ void loop()
     if(b == signbyte)
     {
       handlesign();
+    } 
+    /* // TODO
+    else if (b == walletbyte)
+    {
+      new_wallet();  
     }
+    else if (b == verifywalletbyte)
+    {
+      verify_wallet();
+    }
+    */
   }
 }
