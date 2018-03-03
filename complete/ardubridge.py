@@ -11,6 +11,7 @@ sername = '/dev/ttyUSB0';
 signchar = b's'
 pubkeychar = b'p'
 walletchar = b'w'
+pubkeywritechar = b'l'
 N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 #z = b'120'
@@ -41,7 +42,9 @@ def signwvars(z, r, k_inv):
     print(outp)
     ser.write(outp)
     s1 = ser.readline().strip()#gettoken().strip()
+    print(s1)
     s2 = ser.readline().strip()#gettoken().strip()
+    print(s2)
     return s1, s2
 
 def sign(z):
@@ -58,5 +61,8 @@ def getpubkey():
 
 def writewallet(privkey):
     ser.write(walletchar + bytearray(privkey, 'UTF-8') + delim)
+
+def writepubkey(pubkeyx, pubkeyy):
+    ser.write(pubkeywritechar + bytearray(pubkeyx, 'UTF-8') + delim + bytearray(pubkeyy, 'UTF-8') + delim)
 
 #verify(z, r, k_inv)

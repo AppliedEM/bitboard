@@ -22,6 +22,8 @@ def grab_utxos(address,on_testnet): # Bitcoin address
 
 def sum_utxos(utxo_dict):
 	sum = 0
+	pp = pprint.PrettyPrinter(indent=4)
+	pp.pprint(utxo_dict)
 	for i in utxo_dict['unspent_outputs']:
 		sum = sum + i['value']
 	return sum #note this is measured in satoshi, not BTC

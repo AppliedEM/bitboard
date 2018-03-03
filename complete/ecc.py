@@ -712,7 +712,7 @@ class PrivateKey:
         #uncompressed = b'\x04' + self.point.x.num.to_bytes(32, 'big') + self.point.y.num.to_bytes(32, 'big')
         return hexlify(self.point.sec(compressed))
 
-    def getaddress(self, testnet=False, compressed=True):
+    def getaddress(self, testnet=True, compressed=True):
         comp = self.point.sec(compressed)
         h160 = hash160(comp)
         prefix = b'\00'
