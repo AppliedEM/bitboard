@@ -1,4 +1,6 @@
 #include <Wire.h>
+#include <math.h>
+#include <Arduino.h>
 #include "jerk.h"
 
 const int MPU_addr=0x68;
@@ -18,11 +20,11 @@ void init_imu(){
 }
 
 uint32_t accel_mag(){
-  Wire.beginTransmission(MPU_addr);	
+  Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
   Wire.endTransmission(false);
   Wire.requestFrom(MPU_addr,14,true);  // request a total of 14 registers
-  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)    
+  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
   AcY=Wire.read()<<8|Wire.read();  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
   AcZ=Wire.read()<<8|Wire.read();  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
 
@@ -49,4 +51,3 @@ uint32_t jerkometer(){
 	}
 	return jerk;
 }
-

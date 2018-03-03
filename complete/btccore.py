@@ -134,7 +134,7 @@ def wiftoprivate(self, wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
     return int(bs,16)
 
-def changewallet(privkey_wip):
+def changewallet(privkey_wif):
     privkey = wiftoprivate(privkey_wip)
     ardubridge.writewallet(str(privkey))
 
@@ -169,4 +169,9 @@ def debug2():
 #debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
-print(build_transaction3(taddr2, 1*sats, .01*sats))
+#print(build_transaction3(taddr2, 1*sats, .01*sats))
+p = PrivateKey(13370)
+priv = wiftoprivate(p.wif())
+print("expected private key:")
+print(priv)
+changewallet(p.wif())
