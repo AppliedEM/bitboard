@@ -112,7 +112,7 @@ def runtests():
 	assert(find_bigga_dolla(hi,1000) == 'dbb3853afdb127cb7555bf44a033fa69b57335720132b8c016239ca80e4e570b')
 	assert(find_bigga_dolla(hi,202020) == False)
 	assert(new_transaction(testnet_address,"wkawka",1202494949,True)=="Insufficient Funds... You poor motherfucker.")
-	assert(len(new_transaction(testnet_address,"wkawka",1202,True)==44) #size determined when running function dynamically
+	assert(len(new_transaction(testnet_address,"wkawka",1202,True))==44) #size determined when running function dynamically
 	push_output = push_transaction(smartbit_main_tx_hash,False)
 	assert(push_output['error']['message'] == 'transaction already in block chain')
 	

@@ -1,0 +1,62 @@
+<!DOCTYPE=html>
+<html>
+<head>
+<!--<link rel="stylesheet" type="text/css" href="css/attempt_style.css"> -->
+<!--<link rel="stylesheet" type="text/css" href="css/header.css">
+<link rel="stylesheet" type="text/css" href="css/home.css"> -->
+<!--<script type="text/javascript" src="/attempt_00.js"> </script> -->
+<style>
+s { 
+    text-decoration: none;
+}
+</style>
+<title> Taxation is Theft! </title>
+<div id="navbar"> </div>
+</head>
+<body>
+<h1>Enter your account info here</h1>
+<br>
+<input type="text" id="acctname" name="acctname"></input>
+<div id="demo">
+<button onclick="loadDoc()">Get available funds (in Satoshi)</button>
+</div>
+<br>
+<br>
+Send payment to:
+<input id="to_acct" name="to_acct"></input>Quanitty:<input id="price" name="price"></input>
+<button onclick="sendMoney()">Sendu la Mono!</button><br>
+<div id="sent_successful"></div>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+  var myacct = document.getElementById("acctname").value
+  xhttp.open("GET", "/mymoney?account_id=" + myacct, true);
+  xhttp.send();
+};
+function sendMoney() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("sent_successful").innerHTML =
+      this.responseText;
+    }
+  };
+  var myacct = document.getElementById("acctname").value
+  var target_addr = document.getElementById("to_acct").value
+  var price = document.getElementById("price").value
+  xhttp.open("GET", "/sendmoney?account_id=" + myacct + "&target_addr=" + target_addr + "&price=" + price, true);
+  xhttp.send();
+};
+</script>
+<!--<script type="text/javascript" src="js/navbar.js"> </script>
+<script type="text/javascript" src="js/home.js"> </script>-->
+</body>
+
+</html>
