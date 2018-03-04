@@ -23,7 +23,7 @@ s {
 <br>
 <br>
 Send payment to:
-<input id="to_acct" name="to_acct"></input>Quanitty:<input id="price" name="price"></input>Fees:<input id="fees" name="fees"></input>
+<input id="to_acct" name="to_acct"></input>Quanitty:<input id="price" name="price"></input>
 <button onclick="sendMoney()">Sendu la Mono!</button><br>
 <div id="sent_successful"></div>
 
@@ -51,8 +51,7 @@ function sendMoney() {
   var myacct = document.getElementById("acctname").value
   var target_addr = document.getElementById("to_acct").value
   var price = document.getElementById("price").value
-  var fees = document.getElementById("fees").value
-  xhttp.open("GET", "/sendmoney?account_id=" + myacct + "&target_addr=" + target_addr + "&price=" + price + "&fee="+fees, true);
+  xhttp.open("GET", "/sendmoney?account_id=" + myacct + "&target_addr=" + target_addr + "&price=" + price, true);
   xhttp.send();
 };
 </script>
