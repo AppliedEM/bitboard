@@ -42,14 +42,17 @@ def signwvars(z, r, k_inv):
     print(outp)
     ser.write(outp)
     s1 = ser.readline().strip()#gettoken().strip()
-    print(s1)
     s2 = ser.readline().strip()#gettoken().strip()
-    print(s2)
     return s1, s2
 
 def sign(z):
     r,k_inv = getsiginputs()
-    return signwvars(z, r, k_inv)
+    r,s = signwvars(z, r, k_inv)
+    print("r:")
+    print(r)
+    print("s:")
+    print(s)
+    return r,s
 
 def getpubkey():
     ser.write(pubkeychar)

@@ -129,7 +129,6 @@ def build_transaction3(pubkey, value, fee):
         value = int(value)
     x,y = ardubridge.getpubkey()
     addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
-    p = PrivateKey(privatekey3)
     addrs = addr.decode("UTF-8")
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
