@@ -4,6 +4,7 @@
 #include "ecdsa.h"
 #include "wallet.h"
 #include "jerk.h"
+#include <Adafruit_NeoPixel.h>
 
 //s120|107303582290733097924842193972465022053148211775194373671539518313500194639752|31263864094075372764364165952345735120266142355350224183303394048209903603471|
 //private: 43913397594144996512580295960367186541366168895507672003765477422550381072204
@@ -16,6 +17,8 @@ const char walletbyte = 'w';
 const char setpublicbyte = 'l';
 const char verifywalletbyte = 'v';
 const char publicbyte = 'p';
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(1, D7, NEO_GRB + NEO_KHZ800);
+
 
 String wallet_priv = String("43913397594144996512580295960367186541366168895507672003765477422550381072204");
 String wallet_pubx = String("53237820045986896539096637357322002537362350769420441605069248472301971758546");
@@ -29,8 +32,16 @@ const int timeout = 20;
 const bn privatekey = "1337";
 char delim = '|';
 
+const int buttonpin = D6;
+const int securitytimeout = 3000;
+
 //char wallet[200] = {0};
 
+void setcolor(char r, char g, char b)
+{
+	pixels.setPixelColor(0, pixels.Color(r,g,b));
+	pixels.show();
+}
 
 void printBignum (BigNumber & n)
 {
@@ -73,6 +84,8 @@ void setup()
   BigNumber::begin();
   Serial.begin(115200);
   EEPROM.begin(wallet_puby_addr+200);
+  pinMode(buttonpin, INPUT);
+  pixels.begin();
   initvalues();
   Serial.println("privkey:");
   Serial.println(wallet_priv);
@@ -117,9 +130,28 @@ bn handlesign()
   String r = readuntil(delim);
   String k_inv = readuntil(delim);
   point sig = ecdsa::sign(bn(z.c_str()), bn(r.c_str()), bn(k_inv.c_str()), bn(wallet_priv.c_str()));
-
-  Serial.println(sig.x.toString());
-  Serial.println(sig.y.toString());
+  setcolor(150,0,0);
+  bool issafe = false;
+  for(int x = 0; x< securitytimeout; x++)
+  {
+	  if(digitalRead(buttonpin)==0)
+	  {
+		  issafe = true;
+	  }
+	  delay(1);
+  }
+  
+  if(issafe == true)
+  {
+	  setcolor(0,0,150);
+	Serial.println(sig.x.toString());
+	Serial.println(sig.y.toString());
+  }
+  else
+  {
+	Serial.println(String(-1));
+	Serial.println(String(-1));
+  }
 }
 
 void writetomemory(String val, int addr)
@@ -146,8 +178,34 @@ void handlepublickey()
   writetomemory(y, wallet_puby_addr);
 }
 
+double ledintense = 0;
+char max = 150;
+bool goingup = true;
+double inc = .025;
+void runled()
+{
+	if(goingup)
+	{
+		if(ledintense >= max)
+		{
+			goingup = false;
+		}
+		ledintense += inc;
+	}
+	else
+	{
+		if(ledintense <= 1)
+		{
+			goingup = true;
+		}
+		ledintense -= inc;
+	}
+	setcolor(0,0,(char)ledintense);
+}
+
 void loop()
 {
+	runled();
   if(Serial.available())
   {
     char b = Serial.read();
@@ -155,7 +213,7 @@ void loop()
     {
       handlesign();
     }
-    else if (b == walletbyte) //FIXME
+    else if (b == walletbyte)
     {
       handleprivatekey();
       initvalues();
