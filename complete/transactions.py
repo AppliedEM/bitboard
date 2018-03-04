@@ -15,6 +15,23 @@ push_suburl = "blockchain/pushtx/"
 decode_suburl = "blockchain/decodetx/"
 #end constants used in code
 
+def get_transaction_rate():
+	#returns fee in satoshi/kilobyte. Assumes number of confirmations will be 6
+	rate = requests.get("https://estimatefee.com/n/6")
+	rate = rate.json()
+	return rate
+
+def get_transaction_size(ins,outs): 
+	#ins and outs are number of inputs and number of outputs respectively
+	#returns size in bytes
+	size = ins*180 + outs*32 + 10 + ins #equation borrowed from https://news.bitcoin.com/how-to-calculate-bitcoin-transaction-fees-when-youre-in-a-hurry/
+	return size
+
+def get_transaction_fee(rate,size):
+	fee = float(size * rate / 1000)
+	fee = int(fee + 1)
+	return fee
+	
 #begin functions for pushing transactions to the blockchain
 def push_transaction(hex_hash, use_testnet):
         global api_mainnet
