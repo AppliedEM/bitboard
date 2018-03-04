@@ -15,6 +15,10 @@ class Application(Frame):
         outp = btccore.perform_transaction(ad, am, f)
         print(outp)
 
+    def importwif(self):
+        key = self.imp.get()
+        btccore.changewallet(key)
+
     def createWidgets(self):
         #self.QUIT = Button(self, text = "QUIT", command = self.quit).grid(row = 0, column = 0)
 
@@ -32,6 +36,11 @@ class Application(Frame):
         self.fee = Entry(self, textvariable = self.fe).grid(row = 3, column = 1)
 
         self.send = Button(self, text = "SEND", command = self.send).grid(row = 4, column = 0)
+        self.importbut = Button(self, text = "IMPORT", command = self.importwif).grid(row = 4, column = 1)
+
+        self.lab4 = Label(self, text="Import:").grid(row = 5, column = 0)
+        self.imp = StringVar()
+        self.importfield = Entry(self, textvariable = self.imp).grid(row = 5, column = 1)
 
 
 
