@@ -33,7 +33,7 @@ def send_money():
 	print(price, file=sys.stderr)
 	fee = int(request.args['fee'])
 	sats = 100000000
-	outp = btccore.perform_transaction(target, value*sats, .01*sats)
+	outp = btccore.perform_transaction(target, price*sats, .01*sats)
 	print("output: " + outp, file=sys.stderr)
 	return str(push_attempt)
 
