@@ -123,6 +123,10 @@ def getaddress(x,y, testnet=True, compressed=True):
     return encode_base58(total)
 
 def build_transaction3(pubkey, value, fee):
+    if type(fee) == type('s'):
+        fee = int(fee)
+    if type(value) == type('s'):
+        value = int(value)
     x,y = ardubridge.getpubkey()
     addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
     p = PrivateKey(privatekey3)
@@ -132,7 +136,7 @@ def build_transaction3(pubkey, value, fee):
 
 '''
 performs a transaction given the public key to send funds to (pubkey) at (value)
-with a certain transaction fee. pubkey is a compressed SEC string, and value and
+with a certain transaction fee. pubkey is a compressed SEC string address, and value and
 fee are in satoshi
 '''
 def perform_transaction(pubkey, value, fee):

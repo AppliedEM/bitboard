@@ -105,6 +105,9 @@ def grabinputs(address, value, testnet=True):
 	dat = grab_utxos(address, testnet)
 	total = sum_utxos(dat)
 	idso, indso, vals = getinputs(dat)
+	print(idso)
+	print(indso)
+	print(vals)
 	return idso, indso, total-value
 
 val = 1.3
