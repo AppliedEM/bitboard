@@ -15,12 +15,11 @@ const char walletbyte = 'w';
 const char setpublicbyte = 'l';
 const char verifywalletbyte = 'v';
 const char publicbyte = 'p';
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(1, D7, NEO_GRB + NEO_KHZ800);
 
 
-//String wallet_priv = String("43913397594144996512580295960367186541366168895507672003765477422550381072204");
-//String wallet_pubx = String("53237820045986896539096637357322002537362350769420441605069248472301971758546");
-//String wallet_puby = String("49407176618187043960559197373734381057571970898731550795341045595301080938882");
+String wallet_priv = String("43913397594144996512580295960367186541366168895507672003765477422550381072204");
+String wallet_pubx = String("53237820045986896539096637357322002537362350769420441605069248472301971758546");
+String wallet_puby = String("49407176618187043960559197373734381057571970898731550795341045595301080938882");
 
 int  wallet_priv_addr = 100;
 int  wallet_pubx_addr = 300;
@@ -34,12 +33,6 @@ const int buttonpin = D6;
 const int securitytimeout = 3000;
 
 //char wallet[200] = {0};
-
-void setcolor(char r, char g, char b)
-{
-	pixels.setPixelColor(0, pixels.Color(r,g,b));
-	pixels.show();
-}
 
 void printBignum (BigNumber & n)
 {
@@ -83,7 +76,6 @@ void setup()
   Serial.begin(115200);
   EEPROM.begin(wallet_puby_addr+200);
   pinMode(buttonpin, INPUT);
-  pixels.begin();
   initvalues();
   Serial.println("privkey:");
   Serial.println(wallet_priv);
@@ -179,7 +171,6 @@ void runled()
 		}
 		ledintense -= inc;
 	}
-	setcolor(0,0,(char)ledintense);
 }
 
 void loop()
