@@ -199,7 +199,7 @@ def debug3():
     print(x)
     print(y)
 
-#debug1()
+debug1()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
