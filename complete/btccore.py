@@ -131,6 +131,7 @@ def build_transaction3(pubkey, value, fee):
     addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
     addrs = addr.decode("UTF-8")
     transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
+    #fee = transactions.get_transaction_fee(transactions.get_transaction_rate(),transactions.get_transaction_size(len(transidsarr),2)) #assumes 2 is the number of outputs
     return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
 
 '''
