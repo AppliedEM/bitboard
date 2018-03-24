@@ -152,6 +152,6 @@ point ecdsa::sign(bn z,bn r,bn k_inv, bn secret)
   Serial.println(String("k_inv: ") + k_inv.toString());
   Serial.println(String("secret: ") + secret.toString());*/
 
-  bn s = ((z + (r*secret)) * k_inv) % (N/bn(100));
+  bn s = ((z + (r*secret)) * k_inv) % N;
   return point(r,s, 0,0);
 }
