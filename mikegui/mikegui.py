@@ -28,53 +28,6 @@ BoxLayout:
                 max: 360.
 '''
 
-class MyPaintWidget(Widget):
-	def on_touch_down(self, touch):
-		color = (random(), 1, 1)
-		with self.canvas:
-			Color(*color, mode='hsv')
-			d = 30.
-			Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
-			touch.ud['line'] = Line(points=(touch.x, touch.y))
-
-	def on_touch_move(self, touch):
-		touch.ud['line'].points += [touch.x, touch.y]
-
-
-class MyPaintApp(App):
-	def build(self):
-		#parent = Widget()
-		#painter = MyPaintWidget()
-		superparent = BoxLayout(padding=10,orientation='vertical')
-		parent = BoxLayout(padding=10, orientation='horizontal')
-		parent2 = BoxLayout(padding=10, orientation='horizontal')
-		superparent.add_widget(parent)
-		superparent.add_widget(parent2)
-
-		updates = Label(text='updates go here...')	
-		input0 = TextInput(text="")
-		clearbtn = Button(text='Clear')
-		exitbtn = Button(text='Exit')
-	
-		#parent.add_widget(painter)
-		parent.add_widget(clearbtn)
-		parent.add_widget(exitbtn)
-		parent2.add_widget(updates)
-		parent2.add_widget(input0)
-
-		def fuck_you(obj):
-			if updates.text != "Fuck you!":
-				updates.text = "Fuck you!"
-			else:
-				updates.text = input0.text
-			print("Fuck you!")
-			#painter.canvas.clear()
-		clearbtn.bind(on_release=fuck_you)
-		exitbtn.bind(on_release=quit)
-		global kv
-		Builder.load_string(kv)
-		return superparent
-
 class Wallet_GUI(App):
 	def build(self):
 		#parent = Widget()
@@ -140,29 +93,22 @@ class Wallet_GUI(App):
 		parent2.add_widget(input0)
 		"""
 
-		def fuck_you(obj):
-			if updates.text != "Fuck you!":
-				updates.text = "Fuck you!"
-			else:
-				updates.text = address_input.text
-			print("Fuck you!")
-			#painter.canvas.clear()
-
-		def empty_textboxes():
+		def empty_textboxes(self):
 			address_input.text = ""
 			fee_input.text = ""
 			amount_input.text = ""
+			import_input.text = ""
 			updates.text = "Text boxes have been cleared."
 
-		def import_key():
-			if importbtn.text = "":
+		def import_key(self):
+			if importbtn.text == "":
 				updates.text = "Please enter a new bitcoin key to import."
 			else:
 				btccore.changewallet(importbtn.text)
 				importbtn.text = ""
 				updates.text = "Wallet has been updated."
 		
-		def send():
+		def send(self):
 			am = int(float(amount_input.text)*sats)
 			fee = int(float(amount_fee.text)*sats)
 			outp = btccore.perform_transaction(address_input.text,am,fee)
@@ -171,6 +117,8 @@ class Wallet_GUI(App):
 
 		clearbtn.bind(on_release=empty_textboxes)
 		exitbtn.bind(on_release=quit)
+		sendbtn.bind(on_release=send)
+		importbtn.bind(on_release=import_key)
 		global kv
 		Builder.load_string(kv)
 		return griddy
