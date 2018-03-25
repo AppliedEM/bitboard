@@ -35,6 +35,8 @@ testcomm = 's82736482736928392039492837498273984692387492|7197156379247575984208
 transid = '1b4c79d48515ec83b23b0696711f397afa619df51f199f10eeb7341ae5fd4a31'
 # Transaction Construction Example
 
+satsperbyte = 7
+
 '''
 converts two arrays (the transaction id and the UTXO index in the transaction)
 to an array of TxIn objects
