@@ -1,5 +1,4 @@
   ------------HARDWARE--------------------
-*create shell script file to upload firmware to chip
 *move over to esp32 platform?
   ------------SOFTWARE--------------------
 *get clipboard integration working with GUI
