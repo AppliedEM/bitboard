@@ -2,7 +2,7 @@
 #include "point.h"
 #include "ecdsa.h"
 #include "wallet.h"
-#include "jerk.h"
+//#include "jerk.h"
 
 //s120|107303582290733097924842193972465022053148211775194373671539518313500194639752|31263864094075372764364165952345735120266142355350224183303394048209903603471|
 //private: 43913397594144996512580295960367186541366168895507672003765477422550381072204
@@ -73,7 +73,7 @@ void initvalues()
 void setup()
 {
   BigNumber::begin();
-  Serial.begin(115200);
+  Serial.begin(9600);
   EEPROM.begin(wallet_puby_addr+200);
   pinMode(buttonpin, INPUT);
   initvalues();
@@ -84,7 +84,7 @@ void setup()
   Serial.println("pubkeyy:");
   Serial.println(wallet_puby);
 
-  init_imu();
+  //init_imu();
 
 }
 
@@ -100,18 +100,15 @@ void waitforbuffer(const int timeout)
 
 String readuntil(char delim)
 {
-  delay(timeout);
   String output = "";
-  char b = Serial.read();
-  if(b == delim)
-    return output;
-  while(b != delim && Serial.available())
-  {
-    waitforbuffer(timeout);
-    output = output + b;
-    b = Serial.read();
-  }
-  return output;
+	int leng = 100;
+  char outp[leng];
+	for(int x=0; x < leng; x++)
+	{
+		outp[x] = 0;
+	}
+	Serial.readBytesUntil(delim, outp, leng);
+  return String(outp);
 }
 
 bn handlesign()
