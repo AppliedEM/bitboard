@@ -9,7 +9,16 @@ import time
 
 delim = b'|'
 #sername = '/dev/ttyUSB0'
-sername = 'COM6'
+#sername = 'COM6'
+
+def guessarduport():
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        if('USB' in p.description and ('SERIAL' in p.description or 'Serial' in p.description)):
+            return p.device
+
+sername = guessarduport()
+print('PORT GUESSED: ' + sername)
 signchar = b's'
 pubkeychar = b'p'
 walletchar = b'w'
@@ -22,11 +31,6 @@ N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 ser = serial.Serial(sername)
 ser.baudrate = 9600#115200
-
-def guessarduport():
-    ports = list(serial.tools.list_ports.comports())
-    for p in ports:
-        print(p)
 
 def getsiginputs():
     k = randint(0, 2**256)

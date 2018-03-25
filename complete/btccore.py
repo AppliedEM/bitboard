@@ -272,9 +272,9 @@ def debug7():
     print(getaddress2())
 
 def debug8():
-    ardubridge.guessarduport()
+    print(ardubridge.guessarduport())
 
-debug8()
+#debug8()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
