@@ -57,10 +57,11 @@ those addresses) to an array of TxOut objects
 def buildoutputs(pubkeysarr, amountsarr):
     tx_outs = []
     for i in range(len(pubkeysarr)):
-        tx_outs.append(TxOut(
-            amount = int(amountsarr[i]),
-            script_pubkey = p2pkh_script(decode_base58(pubkeysarr[i])),
-        ))
+        if amountsarr[i] != 0:
+            tx_outs.append(TxOut(
+                amount = int(amountsarr[i]),
+                script_pubkey = p2pkh_script(decode_base58(pubkeysarr[i])),
+            ))
     return tx_outs
 
 def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, privatekey):
@@ -119,6 +120,7 @@ def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr, tnet=
         tx_obj.tx_ins[i].script_sig = Script([sig, sec2])
     return hexlify(tx_obj.serialize())
 
+#outputs a SEC bitcoin address given the x and y point of the public key
 def getaddress(x,y, testnet=True, compressed=True):
     p = S256Point(x,y)
     comp = p.sec(compressed)
@@ -133,6 +135,11 @@ def getaddress(x,y, testnet=True, compressed=True):
     total = raw + checksum
     return encode_base58(total)
 
+#queries the hardware wallet for the bitcoin address and returns it in SEC format
+def getaddress2(testnet = False, compressed=True):
+    x,y = ardubridge.getpubkey()
+    return getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")), testnet, compressed).decode('utf-8')
+
 def checktestnet(addr):
     hexed = hexlify(base58.b58decode(addr))
     nettype = hexed[:2].decode("UTF-8")
@@ -140,6 +147,16 @@ def checktestnet(addr):
         return True
     else:
         return False
+
+def checkaddrtype(addr):
+    hexed = hexlify(base58.b58decode(addr))
+    nettype = hexed[:2].decode("UTF-8")
+    if nettype == '6f':
+        return 'testnet'
+    elif nettype == '00':
+        return 'mainnet'
+    else:
+        return 'other'
 
 def build_transaction3(pubkey, value, fee):
     #print('f1')
@@ -150,12 +167,21 @@ def build_transaction3(pubkey, value, fee):
     #print('f2')
     x,y = ardubridge.getpubkey()
     print('f3')
-    testnet = checktestnet(pubkey)
-    if testnet:
-        print("testnet destination detected.")
+    nettype = checkaddrtype(pubkey)
+    if nettype == 'testnet' or nettype == 'mainnet':
+        testnet = True
+        if nettype == 'testnet':
+            print("testnet destination detected.")
+            testnet = True
+        elif nettype == 'mainnet':
+            print("destination is mainnet")
+            testnet = False
+        addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")), testnet)
     else:
-        print("destination is not testnet")
-    addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")), testnet)
+        print("destination address is not on blockchain. sending junk.")
+        return '-1'
+
+
     #print(addr)
     #print('f4')
     addrs = addr.decode("UTF-8")
@@ -176,7 +202,8 @@ def perform_transaction(pubkey, value, fee):
     print('------------HASH-------------')
     print(trans)
     print('-----------------------------')
-    return transactions.push_transaction(trans, tnet)
+    if trans != '-1':
+        return transactions.push_transaction(trans, tnet)
 
 def wiftoprivate(wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
@@ -197,17 +224,7 @@ def changewallet(privkey_wif):
     ardubridge.writewallet(sec)
     ardubridge.writepubkey(x,y)
 
-total = int(2.56*100000000)
-fee = 10000000
 sats = 100000000
-
-unspent = total-fee
-
-transidsarr = [transid]
-transindexarr = [0]
-
-pubkeysarr = [taddr1, taddr2]
-amountsarr = [.9*unspent, .1*unspent]
 
 def debug1():
     z = 82736482736928392039492837498273984692387492
@@ -237,8 +254,8 @@ def debug3():
 
 def debug5():
     #changewallet(privatekey4)
-    #print(build_transaction3(taddr5, 500, 500))
-    print(perform_transaction(taddr6, 5000, 500))
+    #print(build_transaction3(taddr6, 0.00004325*sats-500, 500))
+    print(perform_transaction(taddr6, 0.00004325*sats-500, 500))
 
 def debug6():
     outs = [taddr4, taddr6]
@@ -248,7 +265,8 @@ def debug6():
     print(outs2)
 
 def debug7():
-    print(checktestnet(taddr6))
+    print(checkaddrtype(taddr6))
+    print(getaddress2())
 
 debug5()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
