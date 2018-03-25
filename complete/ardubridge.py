@@ -1,4 +1,5 @@
 import serial
+import serial.tools.list_ports
 from binascii import hexlify, unhexlify
 from io import BytesIO
 from random import randint
@@ -21,6 +22,11 @@ N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 ser = serial.Serial(sername)
 ser.baudrate = 9600#115200
+
+def guessarduport():
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        print(p)
 
 def getsiginputs():
     k = randint(0, 2**256)

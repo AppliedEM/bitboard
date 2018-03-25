@@ -198,6 +198,7 @@ performs a transaction given the public key to send funds to (pubkey) at (value)
 with a certain transaction fee. pubkey is a compressed SEC string address, and value and
 fee are in satoshi
 '''
+
 def perform_transaction(pubkey, value, fee):
     trans = build_transaction3(pubkey, value, fee).decode('UTF-8')
     tnet = checktestnet(pubkey)
@@ -270,7 +271,10 @@ def debug7():
     print(checkaddrtype(taddr6))
     print(getaddress2())
 
-debug5()
+def debug8():
+    ardubridge.guessarduport()
+
+debug8()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
