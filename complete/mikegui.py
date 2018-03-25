@@ -10,6 +10,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.config import Config
 from subprocess import call
+from multiprocessing import Process
+import pyperclip
 
 Config.set('input','mouse','mouse,multitouch_on_demand')
 #from kivy.graphics import Color, Ellipse, Line
@@ -128,7 +130,9 @@ class Wallet_GUI(App):
 			print("getting sec")
 			sec = 'muh data'
 			print('putting sec to clipboard')
-			call(["python3","clipcopy.py",sec])
+			#call(["python3","clipcopy.py",sec])
+			p = Process(target=pyperclip.copy, args=(sec))
+			p.start()
 			print("updating label...")
 			updates.text = "SEC code: \"" + sec + "\" has been copied to the clipboard."
 			print("updated updates.text")
