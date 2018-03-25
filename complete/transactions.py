@@ -21,7 +21,7 @@ def get_transaction_rate():
 	rate = rate.json()
 	return rate
 
-def get_transaction_size(ins,outs): 
+def get_transaction_size(ins,outs):
 	#ins and outs are number of inputs and number of outputs respectively
 	#returns size in bytes
 	size = ins*180 + outs*32 + 10 + ins #equation borrowed from https://news.bitcoin.com/how-to-calculate-bitcoin-transaction-fees-when-youre-in-a-hurry/
@@ -31,7 +31,7 @@ def get_transaction_fee(rate,size):
 	fee = float(size * rate / 1000)
 	fee = int(fee + 1)
 	return fee
-	
+
 #begin functions for pushing transactions to the blockchain
 def push_transaction(hex_hash, use_testnet):
         global api_mainnet
@@ -119,12 +119,15 @@ returns the input hashes and indexes required to sum to the required value, and
 returns -1 if there is not enough money
 '''
 def grabinputs(address, value, testnet=True):
+	print("------UTXOs----------")
 	dat = grab_utxos(address, testnet)
 	total = sum_utxos(dat)
 	idso, indso, vals = getinputs(dat)
-	print(idso)
-	print(indso)
-	print(vals)
+
+	#print(idso)
+	print("---------------------")
+	#print(indso)
+	#print(vals)
 	return idso, indso, total-value
 
 val = 1.3

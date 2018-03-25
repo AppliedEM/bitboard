@@ -16,11 +16,20 @@ from btctools import wiftonum, validwif, Key
 privatekey = 'cQqRbFo7TCTxQ5hNUeh9uBai4VCBK6YL9JRnujmM95hDFA8bqwNX'
 privatekey2 = 'cTeJE6qL8FUP6RGfKiS8Ji61ncMPJzdFtuv9s5TkpYyHbZ8EisSX'
 privatekey3 = '91sSDyirZWESRWzaooVpxNr29ci1Fi53SZLJq1BGBP2kq8UVekj'
+#mainnet key
+privatekey4 = 'L1WnPB9kjmYcDr9vvRYymsiGA6JCprEJCzec4J2caFknCcdh2DY5'
 
 taddr1 = 'n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe'
 taddr2 = 'mr2wLxerAQbHRDSL1sgdXLjdB21hCTMPm3'
 taddr3 = 'mreQgXtz3rim9B5PSdWVFT7a3hHdxRF9rW'
+#mainnet address
+taddr4 = '12diPA2A4SKRPxozuoAomaZt3RX1KU7soj'
+#coinbase
+taddr5 = '371beik6JKiGqXDmjqGjUd4GH4Xa4QhTyF'
+#mycelium
+taddr6 = '1JEBz391bVDFF3HF9Rm46M76nWnN8nyVh1'
 
+testcomm = 's82736482736928392039492837498273984692387492|71971563792475759842086954563582005301147766199344672435311881659902753645710|6719721021196686748170973065021626150539281941214120091184653270766262267855|'
 
 #transid = 'a213e9d57bc96c2b289dc7217b2eec8ba2aec49749f11dd36ad1a12d9677c451'
 transid = '1b4c79d48515ec83b23b0696711f397afa619df51f199f10eeb7341ae5fd4a31'
@@ -76,21 +85,23 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
     #print("----------")
     return hexlify(tx_obj.serialize())
 
-def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr):
+def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr, tnet=True):
     tx_ins = buildinputs(transidsarr, transindexarr)
-    #print("ins")
+    print("ins")
     print(tx_ins)
     tx_outs = buildoutputs(pubkeysarr, amountsarr)
-    #print("outs")
+    print("pubkeys")
+    print(pubkeysarr)
+    print("outs")
     print(tx_outs)
-    tx_obj = Tx(version=1, tx_ins=tx_ins, tx_outs=tx_outs, locktime=0, testnet=True)
+    tx_obj = Tx(version=1, tx_ins=tx_ins, tx_outs=tx_outs, locktime=0, testnet=tnet)
     #hash_type = SIGHASH_ALL
     #z = tx_obj.sig_hash(0, hash_type)
     #pk = PrivateKey(secret=privatekey)
     for i in range(len(tx_ins)):
         sighash = SIGHASH_ALL
         z = tx_obj.sig_hash(i, sighash)
-        print("getting sign:")
+        #print("getting sign:")
         r,s = ardubridge.sign(z)
         #print("r: " + str(r))
         #print("s: " + str(s))
@@ -122,17 +133,37 @@ def getaddress(x,y, testnet=True, compressed=True):
     total = raw + checksum
     return encode_base58(total)
 
+def checktestnet(addr):
+    hexed = hexlify(base58.b58decode(addr))
+    nettype = hexed[:2].decode("UTF-8")
+    if nettype == '6f':
+        return True
+    else:
+        return False
+
 def build_transaction3(pubkey, value, fee):
+    #print('f1')
     if type(fee) == type('s'):
         fee = int(fee)
     if type(value) == type('s'):
         value = int(value)
+    #print('f2')
     x,y = ardubridge.getpubkey()
-    addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")))
+    print('f3')
+    testnet = checktestnet(pubkey)
+    if testnet:
+        print("testnet destination detected.")
+    else:
+        print("destination is not testnet")
+    addr = getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")), testnet)
+    #print(addr)
+    #print('f4')
     addrs = addr.decode("UTF-8")
-    transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value)
+    #print('f5')
+    transidsarr, transindexarr, leftover = transactions.grabinputs(addrs, value, testnet)
+    #print('f6')
     #fee = transactions.get_transaction_fee(transactions.get_transaction_rate(),transactions.get_transaction_size(len(transidsarr),2)) #assumes 2 is the number of outputs
-    return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee])
+    return build_transaction2(transidsarr, transindexarr, [pubkey, addrs], [value, leftover-fee], testnet)
 
 '''
 performs a transaction given the public key to send funds to (pubkey) at (value)
@@ -141,7 +172,11 @@ fee are in satoshi
 '''
 def perform_transaction(pubkey, value, fee):
     trans = build_transaction3(pubkey, value, fee).decode('UTF-8')
-    return transactions.push_transaction(trans, True)
+    tnet = checktestnet(pubkey)
+    print('------------HASH-------------')
+    print(trans)
+    print('-----------------------------')
+    return transactions.push_transaction(trans, tnet)
 
 def wiftoprivate(wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
@@ -200,7 +235,22 @@ def debug3():
     print(x)
     print(y)
 
-debug1()
+def debug5():
+    #changewallet(privatekey4)
+    #print(build_transaction3(taddr5, 500, 500))
+    print(perform_transaction(taddr6, 5000, 500))
+
+def debug6():
+    outs = [taddr4, taddr6]
+    amts = [1, 1]
+    outs2 = buildoutputs(outs,amts)
+    print(outs)
+    print(outs2)
+
+def debug7():
+    print(checktestnet(taddr6))
+
+debug5()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
