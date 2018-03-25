@@ -9,6 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.config import Config
+from subprocess import call
 
 Config.set('input','mouse','mouse,multitouch_on_demand')
 #from kivy.graphics import Color, Ellipse, Line
@@ -62,6 +63,7 @@ class Wallet_GUI(App):
 		exitbtn = Button(text='Exit', size_hint_x=None, width=150)
 		sendbtn = Button(text='Send', size_hint_x=None, width=150)
 		importbtn = Button(text='Import', size_hint_x=None, width=150)
+		receivebtn = Button(text='Receive', size_hint_x=None, width=150)
 
 		parent = BoxLayout(orientation='horizontal')
 		parent.add_widget(address_label)
@@ -78,6 +80,7 @@ class Wallet_GUI(App):
 		parent = BoxLayout(orientation='horizontal')
 		parent.add_widget(sendbtn)
 		parent.add_widget(importbtn)
+		parent.add_widget(receivebtn)
 		griddy.add_widget(parent)
 		parent = BoxLayout(orientation='horizontal')
 		parent.add_widget(clearbtn)
@@ -121,10 +124,21 @@ class Wallet_GUI(App):
 			print(outp)
 			updates.text = "New transaction Performed! -- IS \n" + str(outp)
 
+		def getSEC(self):
+			print("getting sec")
+			sec = 'muh data'
+			print('putting sec to clipboard')
+			call(["python3","clipcopy.py",sec])
+			print("updating label...")
+			updates.text = "SEC code: \"" + sec + "\" has been copied to the clipboard."
+			print("updated updates.text")
+			
+
 		clearbtn.bind(on_release=empty_textboxes)
 		exitbtn.bind(on_release=quit)
 		sendbtn.bind(on_release=send)
 		importbtn.bind(on_release=import_key)
+		receivebtn.bind(on_release=getSEC)
 		#global kv
 		#Builder.load_string(kv)
 		return griddy
