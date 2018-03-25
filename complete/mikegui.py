@@ -8,9 +8,15 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
+from kivy.config import Config
+
+Config.set('input','mouse','mouse,multitouch_on_demand')
 #from kivy.graphics import Color, Ellipse, Line
 
-import btccore
+try:
+	import btccore
+except:
+	print('couldn')
 
 sats = 100000000
 
@@ -119,8 +125,8 @@ class Wallet_GUI(App):
 		exitbtn.bind(on_release=quit)
 		sendbtn.bind(on_release=send)
 		importbtn.bind(on_release=import_key)
-		global kv
-		Builder.load_string(kv)
+		#global kv
+		#Builder.load_string(kv)
 		return griddy
 
 
