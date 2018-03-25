@@ -110,7 +110,7 @@ class Wallet_GUI(App):
 		
 		def send(self):
 			am = int(float(amount_input.text)*sats)
-			fee = int(float(amount_fee.text)*sats)
+			fee = int(float(fee_input.text)*sats)
 			outp = btccore.perform_transaction(address_input.text,am,fee)
 			print(outp)
 			updates.text = "New transaction Performed! -- IS \n" + str(outp)
