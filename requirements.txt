@@ -1,7 +1,7 @@
-kivy
 requests
 pyserial
 ecdsa
 python3
-pyperclip
 pyinstaller
+
+Depending on which gui either TKinter or pyQt5
