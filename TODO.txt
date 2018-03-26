@@ -4,7 +4,6 @@
 *get clipboard integration working with GUI
 *implement fee function
 *improve GUI
-*remove extraneous code
 *package code as executable for distribution. pyinstaller? http://www.pyinstaller.org/
 *get software working on the lightning network
 *add other cryptocurrencies
