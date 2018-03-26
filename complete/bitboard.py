@@ -1,6 +1,8 @@
 from tkinter import *
 import btccore
 
+#to compile: pyinstaller bitboard.py
+
 sats = 100000000
 
 class Application(Frame):
@@ -15,7 +17,7 @@ class Application(Frame):
         outp = btccore.perform_transaction(ad, am, f)
         if outp != -1:
             if outp['success'] != False:
-                self.balance.set(str(float(self.balance.get()) - (float(am)/sats)))
+                self.balance.set(str(float(self.balance.get()) - (float(am)/sats) - (f*sats)))
         #print(outp)
         self.outputdisplay.set(outp)
 
@@ -29,7 +31,7 @@ class Application(Frame):
         self.outputdisplay.set('copied address to clipboard')
 
     def initvals(self):
-        self.balance.set(float(btccore.getbalance())/sats)
+        self.balance.set(float(btccore.getbalance(self.tnet.get()))/sats)
         self.outputdisplay.set('output will appear here')
 
     def importwif(self):
@@ -40,13 +42,14 @@ class Application(Frame):
     def createWidgets(self):
         #self.QUIT = Button(self, text = "QUIT", command = self.quit).grid(row = 0, column = 0)
         self.outputdisplay = StringVar()
-
+        self.tnet = IntVar()
         self.balance = StringVar()
 
 
         #zeroth row
         self.lab5 = Label(self, text="balance:").grid(row = 0, column = 0)
         self.lab6 = Label(self, textvariable = self.balance).grid(row=0, column = 1)
+        self.tnetbutt = Checkbutton(self, text='testnet?', variable = self.tnet, command=self.initvals).grid(row=0, column = 2)
 
         #first row
         self.lab1 = Label(self, text="address:").grid(row = 1, column = 0)
