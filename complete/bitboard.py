@@ -25,7 +25,7 @@ class Application(Frame):
         r = Tk()
         r.withdraw()
         r.clipboard_clear()
-        r.clipboard_append(btccore.getaddress2())
+        r.clipboard_append(btccore.getaddress2(self.tnet.get()))
         r.update()
         r.destroy()
         self.outputdisplay.set('copied address to clipboard')
