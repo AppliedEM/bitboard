@@ -68,7 +68,7 @@ class Application(Frame):
         #fourth row
         self.send = Button(self, text = "SEND", command = self.send).grid(row = 4, column = 0)
         self.importbut = Button(self, text = "IMPORT", command = self.importwif).grid(row = 4, column = 1)
-        self.receivebut = Button(self, text="receive", command = self.receive).grid(row=4,column=2)
+        self.receivebut = Button(self, text="RECEIVE", command = self.receive).grid(row=4,column=2)
 
         #fifth row
         self.lab4 = Label(self, text="Import:").grid(row = 5, column = 0)
