@@ -4,3 +4,4 @@ pyserial
 ecdsa
 python3
 pyperclip
+pyinstaller
