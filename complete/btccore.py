@@ -207,6 +207,8 @@ def perform_transaction(pubkey, value, fee):
     print('-----------------------------')
     if trans != '-1':
         return transactions.push_transaction(trans, tnet)
+    else:
+        return -1
 
 def wiftoprivate(wifstring):
     bs = hexlify(base58.b58decode(wifstring)[:-4][1:-1])
@@ -226,6 +228,12 @@ def changewallet(privkey_wif):
     print(y)
     ardubridge.writewallet(sec)
     ardubridge.writepubkey(x,y)
+
+def getbalance(testnet = False):
+    pkey = getaddress2(testnet)
+    dic = transactions.grab_utxos(pkey, testnet)
+    bal = transactions.sum_utxos(dic)
+    return(bal)
 
 sats = 100000000
 
@@ -274,7 +282,10 @@ def debug7():
 def debug8():
     print(ardubridge.guessarduport())
 
-debug7()
+def debug9():
+    print(getbalance())
+
+#debug9()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)

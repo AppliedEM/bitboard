@@ -59,6 +59,8 @@ def grab_utxos(address,on_testnet): # Bitcoin address
 
 def sum_utxos(utxo_dict):
 	sum = 0
+	if type(utxo_dict) == type(b'hi'):
+		return 0
 	pp = pprint.PrettyPrinter(indent=4)
 	pp.pprint(utxo_dict)
 	for i in utxo_dict['unspent_outputs']:
