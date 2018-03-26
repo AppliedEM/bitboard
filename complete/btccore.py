@@ -88,6 +88,8 @@ def build_transaction(transidsarr, transindexarr, pubeysarr, amountsarr, private
     #print("----------")
     return hexlify(tx_obj.serialize())
 
+N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
+
 def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr, tnet=True):
     tx_ins = buildinputs(transidsarr, transindexarr)
     print("ins")
@@ -106,9 +108,13 @@ def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr, tnet=
         z = tx_obj.sig_hash(i, sighash)
         #print("getting sign:")
         r,s = ardubridge.sign(z)
+        s = int(s)
+        others = N-s
+        if others < s:
+            s = others
         #print("r: " + str(r))
         #print("s: " + str(s))
-        sig = Signature(int(r), int(s))
+        sig = Signature(int(r), s)
         der = sig.der()
         sig = der + bytes([sighash])
         #sec = pk.point.sec()

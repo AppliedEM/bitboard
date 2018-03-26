@@ -14,11 +14,14 @@ class Application(Frame):
         f = int(float(f)*sats)
         outp = btccore.perform_transaction(ad, am, f)
         if outp != -1:
-            self.balance -= am
-        print(outp)
+            if outp['success'] != False:
+                self.balance.set(str(float(self.balance.get()) - (float(am)/sats)))
+        #print(outp)
+        self.outputdisplay.set(outp)
 
     def initvals(self):
         self.balance.set(float(btccore.getbalance())/sats)
+        self.outputdisplay.set('output will appear here')
 
     def importwif(self):
         key = self.imp.get()
@@ -27,21 +30,26 @@ class Application(Frame):
 
     def createWidgets(self):
         #self.QUIT = Button(self, text = "QUIT", command = self.quit).grid(row = 0, column = 0)
+        self.outputdisplay = StringVar()
+
         self.balance = StringVar()
 
+
+        #zeroth row
+        self.lab5 = Label(self, text="balance:").grid(row = 0, column = 0)
+        self.lab6 = Label(self, textvariable = self.balance).grid(row=0, column = 1)
 
         #first row
         self.lab1 = Label(self, text="address:").grid(row = 1, column = 0)
         self.addr = StringVar()
         self.address = Entry(self, textvariable = self.addr).grid(row = 1, column = 1)
-        self.lab5 = Label(self, text="balance:").grid(row = 1, column = 2)
 
         #second row
         self.lab2 = Label(self, text="amount:").grid(row = 2, column = 0)
         self.amt = StringVar()
         self.amount = Entry(self, textvariable = self.amt).grid(row = 2, column = 1)
-        self.balance = StringVar()
-        self.lab6 = Label(self, textvariable = self.balance).grid(row=2, column = 2)
+
+
 
         #third row
         self.lab3 = Label(self, text="fee:").grid(row = 3, column = 0)
@@ -56,6 +64,10 @@ class Application(Frame):
         self.lab4 = Label(self, text="Import:").grid(row = 5, column = 0)
         self.imp = StringVar()
         self.importfield = Entry(self, textvariable = self.imp).grid(row = 5, column = 1)
+
+        #sixth row
+        self.lab7 = Label(self, textvariable = self.outputdisplay).grid(row = 6, column = 1)
+
         self.initvals()
 
 
