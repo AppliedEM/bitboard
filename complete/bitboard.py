@@ -19,6 +19,15 @@ class Application(Frame):
         #print(outp)
         self.outputdisplay.set(outp)
 
+    def receive(self):
+        r = Tk()
+        r.withdraw()
+        r.clipboard_clear()
+        r.clipboard_append(btccore.getaddress2())
+        r.update()
+        r.destroy()
+        self.outputdisplay.set('copied address to clipboard')
+
     def initvals(self):
         self.balance.set(float(btccore.getbalance())/sats)
         self.outputdisplay.set('output will appear here')
@@ -59,6 +68,7 @@ class Application(Frame):
         #fourth row
         self.send = Button(self, text = "SEND", command = self.send).grid(row = 4, column = 0)
         self.importbut = Button(self, text = "IMPORT", command = self.importwif).grid(row = 4, column = 1)
+        self.receivebut = Button(self, text="receive", command = self.receive).grid(row=4,column=2)
 
         #fifth row
         self.lab4 = Label(self, text="Import:").grid(row = 5, column = 0)
@@ -67,7 +77,6 @@ class Application(Frame):
 
         #sixth row
         self.lab7 = Label(self, textvariable = self.outputdisplay).grid(row = 6, column = 1)
-
         self.initvals()
 
 
