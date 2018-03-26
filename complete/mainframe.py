@@ -11,7 +11,7 @@ class Application(Frame):
         am = self.amt.get()
         am = int(float(am)*sats)
         f = self.fe.get()
-        f = int(float(f)*sats)
+        f = int(f)
         outp = btccore.perform_transaction(ad, am, f)
         if outp != -1:
             if outp['success'] != False:
@@ -52,7 +52,7 @@ class Application(Frame):
 
 
         #third row
-        self.lab3 = Label(self, text="fee:").grid(row = 3, column = 0)
+        self.lab3 = Label(self, text="fee (satoshi):").grid(row = 3, column = 0)
         self.fe = StringVar()
         self.fee = Entry(self, textvariable = self.fe).grid(row = 3, column = 1)
 

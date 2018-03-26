@@ -17,7 +17,6 @@ privatekey = 'cQqRbFo7TCTxQ5hNUeh9uBai4VCBK6YL9JRnujmM95hDFA8bqwNX'
 privatekey2 = 'cTeJE6qL8FUP6RGfKiS8Ji61ncMPJzdFtuv9s5TkpYyHbZ8EisSX'
 privatekey3 = '91sSDyirZWESRWzaooVpxNr29ci1Fi53SZLJq1BGBP2kq8UVekj'
 #mainnet key
-privatekey4 = 'L1WnPB9kjmYcDr9vvRYymsiGA6JCprEJCzec4J2caFknCcdh2DY5'
 
 taddr1 = 'n2A6fCimAFPzC3SektLU4FnNd1qtbQjqZe'
 taddr2 = 'mr2wLxerAQbHRDSL1sgdXLjdB21hCTMPm3'
