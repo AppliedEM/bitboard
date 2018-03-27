@@ -1,7 +1,7 @@
 missing module named resource - imported by posix, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named posix - imported by os, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named _posixsubprocess - imported by subprocess, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
-missing module named org - imported by pickle, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
+missing module named 'org.python' - imported by pickle, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py, xml.sax
 missing module named readline - imported by cmd, code, pdb, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 excluded module named _frozen_importlib - imported by importlib, importlib.abc, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
@@ -22,7 +22,7 @@ missing module named urllib.unquote - imported by urllib, requests.compat
 missing module named urllib.quote - imported by urllib, requests.compat
 missing module named grp - imported by shutil, tarfile, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, netrc, getpass, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
-missing module named 'org.python' - imported by copy, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py, xml.sax
+missing module named org - imported by copy, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named _dummy_threading - imported by dummy_threading, D:\Documents\compsci\programming competitions\asgardiacomp\bitboard\complete\bitboard.py
 missing module named StringIO - imported by ecdsa.six, urllib3.packages.six, requests.compat
 missing module named 'ecdsa.six.moves' - imported by ecdsa.numbertheory
