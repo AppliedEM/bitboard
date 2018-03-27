@@ -14,7 +14,7 @@ delim = b'|'
 def guessarduport():
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
-        if('USB' in p.description and ('SERIAL' in p.description or 'Serial' in p.description)):
+        if(('USB' in p.description and ('SERIAL' in p.description or 'Serial' in p.description)) or 'CP2102' in p.description):
             return p.device
 
 sername = guessarduport()
@@ -65,10 +65,15 @@ def sign(z):
     print(s)
     return r,s
 
+def clearmem():
+    writewallet
+
 def getpubkey():
     ser.write(pubkeychar)
     print('g1')
     x = ser.readline().strip()
+    if x[0] == 48 or x[0] == '\xff':
+        return '-1', '-1'
     print('pubkey:')
     print(x)
     y = ser.readline().strip()

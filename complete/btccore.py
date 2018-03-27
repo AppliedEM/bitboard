@@ -121,6 +121,8 @@ def build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr, tnet=
         #print(int(pk.point.x.hex(), 16))
         #print(int(pk.point.y.hex(), 16))
         x,y = ardubridge.getpubkey()
+        if(x == -1 and y == -1):
+            return '-1'
         #pub = S256Point(53237820045986896539096637357322002537362350769420441605069248472301971758546, 49407176618187043960559197373734381057571970898731550795341045595301080938882)
         pub = S256Point(int(x), int(y))
         sec2 = pub.sec()
@@ -145,6 +147,8 @@ def getaddress(x,y, testnet=True, compressed=True):
 #queries the hardware wallet for the bitcoin address and returns it in SEC format
 def getaddress2(testnet = False, compressed=True):
     x,y = ardubridge.getpubkey()
+    if(x == '-1' and y == '-1'):
+        return '-1'
     return getaddress(int(x.decode("utf-8")), int(y.decode("utf-8")), testnet, compressed).decode('utf-8')
 
 def checktestnet(addr):
@@ -173,6 +177,8 @@ def build_transaction3(pubkey, value, fee):
         value = int(value)
     #print('f2')
     x,y = ardubridge.getpubkey()
+    if x == -1 and y == -1:
+        return -1
     print('f3')
     nettype = checkaddrtype(pubkey)
     if nettype == 'testnet' or nettype == 'mainnet':
@@ -236,6 +242,8 @@ def changewallet(privkey_wif):
 
 def getbalance(testnet = False):
     pkey = getaddress2(testnet)
+    if pkey == '-1':
+        return 0
     dic = transactions.grab_utxos(pkey, testnet)
     bal = transactions.sum_utxos(dic)
     return(bal)
@@ -290,7 +298,7 @@ def debug8():
 def debug9():
     print(getbalance())
 
-#debug9()
+debug7()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
