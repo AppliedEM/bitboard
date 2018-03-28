@@ -15,15 +15,19 @@ const char walletbyte = 'w';
 const char setpublicbyte = 'l';
 const char verifywalletbyte = 'v';
 const char publicbyte = 'p';
+const char erasebyte = 'e';
+const char restartbyte = 'r';
 
 
 String wallet_priv = String("43913397594144996512580295960367186541366168895507672003765477422550381072204");
 String wallet_pubx = String("53237820045986896539096637357322002537362350769420441605069248472301971758546");
 String wallet_puby = String("49407176618187043960559197373734381057571970898731550795341045595301080938882");
 
+const int keysize = 100;
 int  wallet_priv_addr = 100;
-int  wallet_pubx_addr = 300;
-int  wallet_puby_addr = 500;
+int  wallet_pubx_addr = wallet_priv_addr+keysize;
+int  wallet_puby_addr = wallet_pubx_addr+keysize;
+
 
 const int timeout = 20;
 const bn privatekey = "1337";
@@ -31,6 +35,7 @@ char delim = '|';
 
 const int buttonpin = D6;
 const int securitytimeout = 3000;
+const char eraseval = 255;
 
 //char wallet[200] = {0};
 
@@ -74,11 +79,11 @@ void setup()
 {
   BigNumber::begin();
   Serial.begin(9600);
-  EEPROM.begin(wallet_puby_addr+200);
+  EEPROM.begin(wallet_puby_addr+keysize);
   pinMode(buttonpin, INPUT);
   initvalues();
-  Serial.println("privkey:");
-  Serial.println(wallet_priv);
+  //Serial.println("privkey:");
+  //Serial.println(wallet_priv);
   Serial.println("pubkeyx:");
   Serial.println(wallet_pubx);
   Serial.println("pubkeyy:");
@@ -86,6 +91,24 @@ void setup()
 
   //init_imu();
 
+}
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
+
+void erase()
+{
+  for(int x = wallet_priv_addr; x< (wallet_priv_addr+keysize); x++)
+  {
+    EEPROM.write(x, eraseval);
+  }
+  for(int x = wallet_pubx_addr; x< (wallet_pubx_addr+keysize); x++)
+  {
+    EEPROM.write(x, eraseval);
+  }
+  for(int x = wallet_puby_addr; x< (wallet_puby_addr+keysize); x++)
+  {
+    EEPROM.write(x, eraseval);
+  }
+  EEPROM.commit();
 }
 
 void waitforbuffer(const int timeout)
@@ -203,5 +226,9 @@ void loop()
       handlepublickey();
       initvalues();
     }
+    else if(b == erasebyte)
+      erase();
+    else if(b == restartbyte)
+      resetFunc();
   }
 }

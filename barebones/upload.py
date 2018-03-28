@@ -15,7 +15,7 @@ def listports():
 
 p = guessarduport()
 print("Guessed arduino port. Is this correct? (y/n): " + p)
-resp = raw_input()
+resp = input()
 if resp == 'n':
     print("-------List of ports---------")
     listports()
@@ -23,4 +23,4 @@ if resp == 'n':
     print("Please locate port manually and input: ")
     p = input()
 
-subprocess.call(['esptool.py', '--port', p, 'write_flash', '0x00000', 'arduclient.ino.nodemcu.bin'])
+subprocess.call(['esptool.py', '--port', p, 'write_flash', '0x00000', 'arduclient.ino.nodemcu.bin'], shell=True)

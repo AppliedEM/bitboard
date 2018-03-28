@@ -23,6 +23,8 @@ signchar = b's'
 pubkeychar = b'p'
 walletchar = b'w'
 pubkeywritechar = b'l'
+erasechar = b'e'
+restartchar = b'r'
 N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 #z = b'120'
@@ -65,20 +67,40 @@ def sign(z):
     print(s)
     return r,s
 
-def clearmem():
-    writewallet
+def checkuninit():
+    ser.write(pubkeychar)
+    x = ser.readline().strip()
+    y = ser.readline().strip()
+    outp=True
+    for i in x:
+        if i != 255:
+            outp = False
+    ser.flush()
+    return outp
+
+def restart():
+    ser.write(restartchar)
+    a = ser.readline()
+    a = ser.readline()
+    a = ser.readline()
+    a = ser.readline()
+
+def erase():
+    ser.write(erasechar)
+    restart()
 
 def getpubkey():
     ser.write(pubkeychar)
     print('g1')
+    ser.flush()
     x = ser.readline().strip()
-    if x[0] == 48 or x[0] == '\xff':
-        return '-1', '-1'
-    print('pubkey:')
-    print(x)
     y = ser.readline().strip()
-    print(y)
-    print('----------')
+    outp=True
+    for i in x:
+        if i != 255:
+            outp = False
+    if outp == True:
+        return '-1', '-1'
     return x,y
 
 def writewallet(privkey):
@@ -87,7 +109,12 @@ def writewallet(privkey):
 def writepubkey(pubkeyx, pubkeyy):
     s = pubkeywritechar + bytearray(pubkeyx, 'UTF-8') + delim + bytearray(pubkeyy, 'UTF-8') + delim
     print('wallet write string:')
-    print(s)
-    ser.write(s)
+    #print(s)
+    #ser.write(s)
+    ser.write(pubkeywritechar)
+    ser.write(bytearray(pubkeyx, 'UTF-8') + delim)
+    time.sleep(.3)
+    ser.write(bytearray(pubkeyy, 'UTF-8') + delim)
+    time.sleep(.3)
 
 #verify(z, r, k_inv)

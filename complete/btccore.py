@@ -298,7 +298,7 @@ def debug8():
 def debug9():
     print(getbalance())
 
-debug7()
+#debug7()
 #print(build_transaction(transidsarr, transindexarr, pubkeysarr, amountsarr, privatekey))
 #print(build_transaction2(transidsarr, transindexarr, pubkeysarr, amountsarr))
 #changewallet(privatekey)
